@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Communication Breakdown Game</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #1D9E75;
+    --green-dark: #0F6E56;
+    --green-light: #E1F5EE;
+    --green-mid: #5DCAA5;
+    --red-light: #FAECE7;
+    --red: #993C1D;
+    --red-mid: #F0997B;
+    --bg: #F7F9F8;
+    --card: #FFFFFF;
+    --text: #1A1A1A;
+    --muted: #6B7280;
+    --border: #E5E7EB;
+    --accent-bg: #EBF8F3;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 16px 60px;
+  }
+
+  header {
+    width: 100%;
+    max-width: 680px;
+    padding: 32px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--green-dark);
+    letter-spacing: -0.3px;
+  }
+
+  .logo span { color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 400; margin-left: 8px; }
+
+  .main {
+    width: 100%;
+    max-width: 680px;
+    margin-top: 40px;
+  }
+
+  /* START SCREEN */
+  .start-screen { text-align: center; padding: 20px 0; }
+  .start-icon { width: 72px; height: 72px; background: var(--accent-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+  .start-icon svg { width: 36px; height: 36px; }
+  .start-screen h1 { font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--text); line-height: 1.2; margin-bottom: 12px; letter-spacing: -0.5px; }
+  .start-screen p { font-size: 16px; color: var(--muted); line-height: 1.7; max-width: 480px; margin: 0 auto 32px; }
+
+  .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 36px; }
+  .info-chip { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 12px; text-align: center; }
+  .info-chip .val { font-size: 20px; font-weight: 600; color: var(--green-dark); display: block; margin-bottom: 2px; }
+  .info-chip .lbl { font-size: 12px; color: var(--muted); }
+
+  .btn-start { background: var(--green); color: #fff; border: none; border-radius: 12px; padding: 16px 40px; font-size: 16px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background 0.15s, transform 0.1s; }
+  .btn-start:hover { background: var(--green-dark); }
+  .btn-start:active { transform: scale(0.98); }
+
+  /* PROGRESS */
+  .progress-wrap { margin-bottom: 28px; }
+  .progress-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .progress-meta span { font-size: 13px; color: var(--muted); }
+  .progress-meta .q-count { font-weight: 600; color: var(--text); }
+  .progress-track { height: 5px; background: var(--border); border-radius: 99px; }
+  .progress-fill { height: 5px; background: var(--green); border-radius: 99px; transition: width 0.4s cubic-bezier(.4,0,.2,1); }
+
+  /* BADGE */
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase; padding: 4px 12px; border-radius: 99px; margin-bottom: 16px; }
+  .badge.barrier { background: #FAECE7; color: #993C1D; }
+  .badge.channel { background: #E6F1FB; color: #185FA5; }
+  .badge.feedbackloop { background: #EEEDFE; color: #534AB7; }
+  .badge.nonverbal { background: #FAEEDA; color: #854F0B; }
+
+  /* SCENARIO CARD */
+  .scenario-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 24px; border-left: 4px solid var(--green); }
+  .scenario-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: var(--green); margin-bottom: 10px; }
+  .scenario-text { font-size: 15px; line-height: 1.75; color: var(--text); }
+
+  /* QUESTION */
+  .question { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 18px; line-height: 1.4; letter-spacing: -0.2px; }
+
+  /* OPTIONS */
+  .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .opt { background: var(--card); border: 1.5px solid var(--border); border-radius: 12px; padding: 14px 18px; text-align: left; cursor: pointer; font-size: 15px; color: var(--text); font-family: 'DM Sans', sans-serif; line-height: 1.5; transition: border-color 0.15s, background 0.15s, transform 0.1s; display: flex; align-items: flex-start; gap: 12px; }
+  .opt:hover:not(:disabled) { border-color: var(--green); background: var(--accent-bg); }
+  .opt:active:not(:disabled) { transform: scale(0.99); }
+  .opt-letter { width: 26px; height: 26px; min-width: 26px; border-radius: 50%; background: var(--bg); border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--muted); transition: all 0.15s; margin-top: 1px; }
+  .opt.correct { border-color: var(--green); background: var(--green-light); }
+  .opt.correct .opt-letter { background: var(--green); border-color: var(--green); color: #fff; }
+  .opt.wrong { border-color: var(--red); background: var(--red-light); }
+  .opt.wrong .opt-letter { background: var(--red); border-color: var(--red); color: #fff; }
+  .opt:disabled { cursor: default; }
+
+  /* FEEDBACK */
+  .feedback { border-radius: 12px; padding: 16px 18px; font-size: 14px; line-height: 1.7; display: none; margin-bottom: 20px; }
+  .feedback.correct { background: var(--green-light); border: 1px solid var(--green-mid); color: #085041; }
+  .feedback.wrong { background: var(--red-light); border: 1px solid var(--red-mid); color: #4A1B0C; }
+  .feedback strong { font-weight: 600; }
+
+  /* NEXT BTN */
+  .btn-next { background: var(--green); color: #fff; border: none; border-radius: 12px; padding: 14px 32px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; display: none; transition: background 0.15s, transform 0.1s; }
+  .btn-next:hover { background: var(--green-dark); }
+  .btn-next:active { transform: scale(0.98); }
+
+  /* RESULTS */
+  .results { text-align: center; padding: 20px 0; }
+  .score-ring { width: 130px; height: 130px; margin: 0 auto 24px; position: relative; }
+  .score-ring svg { transform: rotate(-90deg); }
+  .score-ring .ring-bg { fill: none; stroke: var(--border); stroke-width: 10; }
+  .score-ring .ring-fill { fill: none; stroke: var(--green); stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset 1s cubic-bezier(.4,0,.2,1); }
+  .score-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .score-num { font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--green-dark); line-height: 1; }
+  .score-denom { font-size: 13px; color: var(--muted); }
+  .results h2 { font-family: 'DM Serif Display', serif; font-size: 28px; margin-bottom: 8px; letter-spacing: -0.3px; }
+  .results .sub { font-size: 15px; color: var(--muted); line-height: 1.7; max-width: 480px; margin: 0 auto 32px; }
+
+  .takeaways { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; text-align: left; margin-bottom: 32px; }
+  .takeaways h3 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--green); margin-bottom: 16px; }
+  .takeaways ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .takeaways li { font-size: 14px; color: var(--text); line-height: 1.6; display: flex; gap: 10px; }
+  .takeaways li::before { content: ""; width: 6px; height: 6px; min-width: 6px; background: var(--green); border-radius: 50%; margin-top: 8px; }
+
+  .btn-restart { background: transparent; border: 2px solid var(--green); color: var(--green); border-radius: 12px; padding: 14px 32px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
+  .btn-restart:hover { background: var(--green); color: #fff; }
+
+  /* ANIMATION */
+  .fade-in { animation: fadeUp 0.35s ease both; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 480px) {
+    .info-grid { grid-template-columns: repeat(3, 1fr); }
+    .start-screen h1 { font-size: 28px; }
+    .question { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Communication Breakdown <span>PDW Activity</span></div>
+</header>
+
+<div class="main" id="app"></div>
+
+<script>
+const questions = [
+  {
+    badge: "barrier", badgeLabel: "Communication Barrier",
+    scenario: "Marcus sends a lengthy email to his team at 4:58 PM on Friday detailing urgent changes to Monday's project plan. On Monday, three team members say they never saw it, and two others skimmed it and missed the key deadline changes.",
+    question: "What is the primary communication breakdown here?",
+    options: [
+      "The message was too long and contained jargon",
+      "Wrong timing and channel — urgent info sent via low-attention medium at low-attention time",
+      "Marcus did not ask for feedback",
+      "The team members were not motivated to read the email"
+    ],
+    correct: 1,
+    feedback: "Matching the channel to the message is critical. Urgent, time-sensitive information sent late on a Friday via email — a passive channel — is likely to be missed. A direct message, call, or Monday morning meeting would have been far more effective."
+  },
+  {
+    badge: "barrier", badgeLabel: "Semantic Noise",
+    scenario: "Priya, a new HR intern, is asked to \"action the onboarding synergy deliverables before EOD.\" She spends an hour trying to figure out what this means and eventually completes the wrong tasks.",
+    question: "Which type of communication noise caused this breakdown?",
+    options: [
+      "Physical noise — too many distractions in the office",
+      "Psychological noise — Priya was stressed and distracted",
+      "Semantic noise — jargon and unclear language confused the receiver",
+      "Cultural noise — different workplace backgrounds"
+    ],
+    correct: 2,
+    feedback: "Semantic noise occurs when language is unclear, overly technical, or full of jargon the receiver doesn't understand. \"Action,\" \"synergy deliverables,\" and \"EOD\" are all examples of workplace jargon that can confuse new employees. Clear, plain language prevents this entirely."
+  },
+  {
+    badge: "feedbackloop", badgeLabel: "Feedback Loop",
+    scenario: "During a team meeting, David presents a new process change. He asks \"Does everyone understand?\" and the room nods. Two weeks later, the team has implemented it in four different ways because each person had a different interpretation.",
+    question: "What step in the communication process failed?",
+    options: [
+      "The source — David did not prepare well enough",
+      "The channel — a meeting was the wrong format",
+      "Feedback — yes/no confirmation does not verify actual understanding",
+      "The environment — the meeting room was distracting"
+    ],
+    correct: 2,
+    feedback: "Asking \"do you understand?\" is a weak feedback loop — people will almost always say yes, even when they don't. Effective feedback means asking receivers to paraphrase the message, describe their next steps, or ask clarifying questions. This closes the loop and confirms shared understanding."
+  },
+  {
+    badge: "nonverbal", badgeLabel: "Non-Verbal Cues",
+    scenario: "Sofia is video-calling a client to discuss a contract renewal. She is multitasking — typing responses to other emails while speaking. The client, noticing her eyes moving away from the camera and hearing keyboard clicks, ends the call feeling undervalued and later declines to renew.",
+    question: "What communication concept best explains the client's reaction?",
+    options: [
+      "The message was too direct and intimidating",
+      "Non-verbal cues — distracted body language contradicted Sofia's verbal message",
+      "The channel was inappropriate — email would have been better",
+      "Cultural differences in communication style"
+    ],
+    correct: 1,
+    feedback: "Non-verbal communication — eye contact, body language, and even background sounds — carries significant meaning, especially in video calls. Sofia's verbal message may have been positive, but her non-verbal cues signalled disinterest. Effective communicators ensure their non-verbal behaviour aligns with their intended message."
+  },
+  {
+    badge: "channel", badgeLabel: "Channel Selection",
+    scenario: "James needs to deliver constructive feedback to an employee about a performance issue. He decides to send a detailed email listing all the concerns. The employee reads it during a busy workday, feels blindsided, and becomes defensive during the follow-up meeting.",
+    question: "What was James's key communication mistake?",
+    options: [
+      "He gave too much feedback at once",
+      "Email is a poor channel for sensitive, high-stakes messages — it lacks tone and two-way dialogue",
+      "He should have copied HR on the email",
+      "The feedback was not specific enough"
+    ],
+    correct: 1,
+    feedback: "Channel selection matters — not all messages are equal. Sensitive topics like performance feedback require a rich communication channel (face-to-face or video call) that allows for tone, empathy, and real-time dialogue. Email strips away these cues and gives the receiver no way to respond in the moment."
+  }
+];
+
+const letters = ['A','B','C','D'];
+let current = 0, score = 0, answered = false;
+
+function render() {
+  const app = document.getElementById('app');
+  if (current === -1) { renderStart(app); return; }
+  if (current >= questions.length) { renderResults(app); return; }
+  renderQuestion(app);
+}
+
+function renderStart(app) {
+  app.innerHTML = `
+    <div class="start-screen fade-in">
+      <div class="start-icon">
+        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 10C6 8.34 7.34 7 9 7H27C28.66 7 30 8.34 30 10V22C30 23.66 28.66 25 27 25H20L14 30V25H9C7.34 25 6 23.66 6 22V10Z" stroke="#1D9E75" stroke-width="2" stroke-linejoin="round"/>
+          <circle cx="12" cy="16" r="2" fill="#1D9E75"/>
+          <circle cx="18" cy="16" r="2" fill="#1D9E75"/>
+          <circle cx="24" cy="16" r="2" fill="#1D9E75"/>
+        </svg>
+      </div>
+      <h1>Communication Breakdown</h1>
+      <p>Five workplace scenarios. Can you spot what went wrong and choose the right fix? Each question tests a core concept from the communication process model.</p>
+      <div class="info-grid">
+        <div class="info-chip"><span class="val">5</span><span class="lbl">Scenarios</span></div>
+        <div class="info-chip"><span class="val">~7</span><span class="lbl">Minutes</span></div>
+        <div class="info-chip"><span class="val">OB</span><span class="lbl">Concepts</span></div>
+      </div>
+      <button class="btn-start" onclick="startGame()">Start the game →</button>
+    </div>`;
+}
+
+function startGame() {
+  current = 0; score = 0; answered = false;
+  render();
+}
+
+function renderQuestion(app) {
+  const q = questions[current];
+  const pct = (current / questions.length) * 100;
+  app.innerHTML = `
+    <div class="fade-in">
+      <div class="progress-wrap">
+        <div class="progress-meta">
+          <span>Question <span class="q-count">${current + 1} of ${questions.length}</span></span>
+          <span>${score} correct so far</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      </div>
+      <span class="badge ${q.badge}">${q.badgeLabel}</span>
+      <div class="scenario-card">
+        <div class="scenario-label">Workplace Scenario</div>
+        <p class="scenario-text">${q.scenario}</p>
+      </div>
+      <p class="question">${q.question}</p>
+      <div class="options" id="opts">
+        ${q.options.map((o, i) => `
+          <button class="opt" onclick="choose(${i})">
+            <span class="opt-letter">${letters[i]}</span>
+            <span>${o}</span>
+          </button>`).join('')}
+      </div>
+      <div class="feedback" id="fb"></div>
+      <button class="btn-next" id="nxt" onclick="nextQ()">${current === questions.length - 1 ? 'See my results →' : 'Next question →'}</button>
+    </div>`;
+}
+
+function choose(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.opt');
+  btns.forEach((b, idx) => {
+    b.disabled = true;
+    if (idx === q.correct) b.classList.add('correct');
+    else if (idx === i && i !== q.correct) b.classList.add('wrong');
+  });
+  if (i === q.correct) score++;
+  const fb = document.getElementById('fb');
+  fb.style.display = 'block';
+  fb.className = `feedback ${i === q.correct ? 'correct' : 'wrong'}`;
+  fb.innerHTML = `<strong>${i === q.correct ? 'Correct!' : 'Not quite.'}</strong> ${q.feedback}`;
+  document.getElementById('nxt').style.display = 'inline-block';
+}
+
+function nextQ() {
+  current++;
+  answered = false;
+  render();
+}
+
+function renderResults(app) {
+  const pct = Math.round((score / questions.length) * 100);
+  let msg, sub;
+  if (pct === 100) { msg = "Perfect score!"; sub = "You have a strong grasp of the communication process. You can identify barriers, noise, and channel issues with precision."; }
+  else if (pct >= 60) { msg = "Good understanding!"; sub = "You identified most of the communication breakdowns. Review the questions you missed and think about how those barriers show up in your own workplace."; }
+  else { msg = "Keep building your knowledge."; sub = "Communication breakdowns are easy to miss in real life too. Review the feedback on each question and revisit the key concepts from today's workshop."; }
+
+  const r = 55;
+  const circ = 2 * Math.PI * r;
+  const offset = circ - (pct / 100) * circ;
+
+  app.innerHTML = `
+    <div class="results fade-in">
+      <div class="score-ring">
+        <svg width="130" height="130" viewBox="0 0 130 130">
+          <circle class="ring-bg" cx="65" cy="65" r="${r}"/>
+          <circle class="ring-fill" cx="65" cy="65" r="${r}" stroke-dasharray="${circ}" stroke-dashoffset="${circ}" id="ring"/>
+        </svg>
+        <div class="score-center">
+          <span class="score-num">${score}/${questions.length}</span>
+          <span class="score-denom">${pct}%</span>
+        </div>
+      </div>
+      <h2>${msg}</h2>
+      <p class="sub">${sub}</p>
+      <div class="takeaways">
+        <h3>Key Takeaways</h3>
+        <ul>
+          <li>Match your channel to your message — urgent or sensitive topics need richer, two-way channels</li>
+          <li>Semantic noise (jargon, unclear language) is one of the most common and avoidable barriers</li>
+          <li>A real feedback loop confirms understanding — "do you get it?" is not enough</li>
+          <li>Non-verbal cues carry as much meaning as your words, especially in virtual settings</li>
+          <li>The receiver's context (timing, attention, emotions) shapes how a message lands</li>
+        </ul>
+      </div>
+      <button class="btn-restart" onclick="startGame()">Play again</button>
+    </div>`;
+
+  setTimeout(() => {
+    const ring = document.getElementById('ring');
+    if (ring) ring.style.strokeDashoffset = offset;
+  }, 100);
+}
+
+current = -1;
+render();
+</script>
+</body>
+</html>
