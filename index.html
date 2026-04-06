@@ -5,452 +5,989 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Communication Breakdown Game</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Caveat:wght@600&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Caveat:wght@600;700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-
 :root{
-  --teal:#8BBCCA;
-  --teal-dark:#6A9BAA;
-  --teal-darker:#4A7A8A;
-  --cream:#F5F0D0;
-  --cream-dark:#EAE4BC;
-  --yellow:#E8C84A;
-  --yellow-dark:#C9A830;
-  --navy:#1A2535;
-  --navy-mid:#2E3F55;
-  --text:#1A2535;
-  --muted:#4A6070;
-  --green-correct:#3A7D5A;
-  --green-correct-bg:#D4EDE0;
-  --red-wrong:#8B3030;
-  --red-wrong-bg:#F0D4D4;
-  --border:#1A2535;
+  --teal:#8BBCCA;--teal-dark:#6A9BAA;--teal-darker:#4A7A8A;
+  --cream:#F5F0D0;--cream-dark:#EAE4BC;
+  --yellow:#E8C84A;--yellow-dark:#C9A830;
+  --navy:#1A2535;--muted:#4A6070;
+  --green-bg:#D4EDE0;--green:#3A7D5A;--green-dark:#1A5A38;
+  --red-bg:#F0D4D4;--red:#8B3030;--red-dark:#5A1A1A;
+  --orange:#E8944A;--purple:#6B4A9A;--purple-bg:#E8D4F0;
+  --blue-bg:#D4E8F5;--blue:#1A5A8A;
 }
+body{font-family:'Nunito',sans-serif;background:var(--teal);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0 16px 80px;color:var(--navy);}
+header{width:100%;max-width:740px;padding:22px 0 0;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+.logo{font-family:'Caveat',cursive;font-size:22px;color:var(--cream);}
+.header-btns{display:flex;gap:6px;flex-wrap:wrap;}
+.hbtn{background:var(--cream);border:2px solid var(--navy);border-radius:8px;padding:6px 12px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:var(--navy);cursor:pointer;box-shadow:2px 2px 0 var(--navy);transition:transform .1s,box-shadow .1s;}
+.hbtn:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--navy);}
+.hbtn.active{background:var(--yellow);}
+.main{width:100%;max-width:740px;margin-top:24px;}
+.card{background:var(--cream);border:2.5px solid var(--navy);border-radius:16px;box-shadow:4px 4px 0 var(--navy);padding:24px;margin-bottom:14px;}
+.card-teal{background:var(--teal-dark);border:2.5px solid var(--navy);border-radius:16px;box-shadow:4px 4px 0 var(--navy);padding:22px;margin-bottom:14px;}
+.card-navy{background:var(--navy);border:2.5px solid var(--navy);border-radius:16px;box-shadow:4px 4px 0 rgba(0,0,0,.3);padding:22px;margin-bottom:14px;}
+.btn-yellow{background:var(--yellow);color:var(--navy);border:2.5px solid var(--navy);border-radius:12px;padding:12px 26px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:3px 3px 0 var(--navy);transition:transform .1s,box-shadow .1s;display:inline-block;}
+.btn-yellow:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--navy);}
+.btn-yellow:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--navy);}
+.btn-cream{background:var(--cream);color:var(--navy);border:2px solid var(--navy);border-radius:12px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:2px 2px 0 var(--navy);transition:transform .1s,box-shadow .1s;display:inline-block;}
+.btn-cream:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--navy);}
+.btn-sm{background:var(--cream);color:var(--navy);border:2px solid var(--navy);border-radius:9px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:2px 2px 0 var(--navy);}
+.btn-red{background:var(--red-bg);color:var(--red);border:2px solid var(--red);border-radius:10px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:2px 2px 0 var(--red);}
 
-body{
-  font-family:'Nunito',sans-serif;
-  background:var(--teal);
-  background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
-                    radial-gradient(circle at 80% 80%, rgba(26,37,53,0.08) 0%, transparent 50%);
-  color:var(--text);
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:0 16px 80px;
-}
+/* PRE-GAME QUIZ */
+.tf-btn{background:#fff;border:2px solid var(--navy);border-radius:10px;padding:11px 28px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:2px 2px 0 var(--navy);transition:all .1s;}
+.tf-btn:hover{background:var(--cream-dark);}
+.tf-btn.tf-correct{background:var(--green-bg);border-color:var(--green);color:var(--green-dark);}
+.tf-btn.tf-wrong{background:var(--red-bg);border-color:var(--red);color:var(--red-dark);}
+.personalized-tip{background:var(--yellow);border:2px solid var(--navy);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:700;color:var(--navy);margin-top:10px;display:none;}
 
-/* HEADER */
-header{
-  width:100%;max-width:680px;padding:28px 0 0;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.logo{
-  font-family:'Caveat',cursive;
-  font-size:22px;color:var(--cream);
-  text-shadow:1px 1px 0 rgba(26,37,53,0.3);
-}
-.lb-btn{
-  background:var(--cream);border:2px solid var(--border);border-radius:8px;
-  padding:7px 16px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;
-  color:var(--navy);cursor:pointer;transition:background .15s,transform .1s;
-  box-shadow:2px 2px 0 var(--border);
-}
-.lb-btn:hover{background:var(--yellow);transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--border);}
-.lb-btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--border);}
+/* DIFF */
+.diff-select{display:flex;gap:8px;justify-content:center;margin-bottom:16px;}
+.diff-btn{padding:8px 18px;border:2px solid var(--navy);border-radius:99px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer;box-shadow:2px 2px 0 var(--navy);transition:all .1s;}
+.diff-btn.easy{background:#D4EDE0;color:var(--green);}
+.diff-btn.medium{background:var(--yellow);color:var(--navy);}
+.diff-btn.hard{background:var(--red-bg);color:var(--red);}
+.diff-btn.selected{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--navy);}
 
-.main{width:100%;max-width:680px;margin-top:32px;}
-
-/* CARD BASE */
-.card{
-  background:var(--cream);
-  border:2.5px solid var(--border);
-  border-radius:16px;
-  box-shadow:4px 4px 0 var(--border);
-  padding:28px;
-}
-
-/* START SCREEN */
+/* INFO GRID */
+.info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px;}
+.info-chip{background:var(--teal-dark);border:2px solid var(--navy);border-radius:12px;padding:13px 8px;text-align:center;box-shadow:2px 2px 0 var(--navy);}
+.info-chip .val{font-family:'Caveat',cursive;font-size:24px;color:var(--cream);display:block;margin-bottom:2px;}
+.info-chip .lbl{font-size:10px;font-weight:800;color:var(--cream);text-transform:uppercase;letter-spacing:.4px;}
+.start-icon{width:76px;height:76px;background:var(--yellow);border:2.5px solid var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:3px 3px 0 var(--navy);}
 .start-screen{text-align:center;}
-.start-icon{
-  width:80px;height:80px;background:var(--yellow);
-  border:2.5px solid var(--border);border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  margin:0 auto 20px;
-  box-shadow:3px 3px 0 var(--border);
-}
-.start-icon svg{width:40px;height:40px;}
-.start-screen h1{
-  font-family:'Caveat',cursive;
-  font-size:42px;color:var(--navy);line-height:1.1;
-  margin-bottom:12px;
-}
-.start-screen p{font-size:15px;color:var(--muted);line-height:1.7;max-width:460px;margin:0 auto 28px;}
+.start-screen h1{font-family:'Caveat',cursive;font-size:38px;color:var(--navy);line-height:1.1;margin-bottom:10px;}
+.start-screen>p{font-size:14px;color:var(--muted);line-height:1.7;max-width:480px;margin:0 auto 20px;font-weight:600;}
 
-.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px;}
-.info-chip{
-  background:var(--teal);border:2px solid var(--border);border-radius:12px;
-  padding:16px 10px;text-align:center;box-shadow:3px 3px 0 var(--border);
-}
-.info-chip .val{font-family:'Caveat',cursive;font-size:28px;color:var(--cream);display:block;margin-bottom:2px;}
-.info-chip .lbl{font-size:11px;font-weight:700;color:var(--cream);text-transform:uppercase;letter-spacing:.5px;}
-
-.btn-start{
-  background:var(--yellow);color:var(--navy);
-  border:2.5px solid var(--border);border-radius:12px;
-  padding:15px 40px;font-size:16px;font-weight:800;
-  cursor:pointer;font-family:'Nunito',sans-serif;
-  box-shadow:4px 4px 0 var(--border);
-  transition:transform .1s,box-shadow .1s;
-}
-.btn-start:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--border);}
-.btn-start:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--border);}
+/* MODEL DIAGRAM */
+.model-diagram h3{font-family:'Caveat',cursive;font-size:19px;color:var(--navy);margin-bottom:10px;text-align:center;}
+.model-nodes{display:flex;align-items:flex-start;gap:0;overflow-x:auto;padding:6px 0 10px;}
+.model-node{display:flex;flex-direction:column;align-items:center;min-width:68px;}
+.node-circle{width:48px;height:48px;border-radius:50%;border:2.5px solid var(--navy);display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:2px 2px 0 var(--navy);transition:all .4s;}
+.node-circle.broken-node{background:var(--red-bg)!important;border-color:var(--red)!important;animation:npulse 1s infinite;}
+@keyframes npulse{0%,100%{box-shadow:2px 2px 0 var(--red),0 0 0 0 rgba(139,48,48,.3);}50%{box-shadow:3px 3px 0 var(--red),0 0 6px 4px rgba(139,48,48,.2);}}
+.node-label{font-size:9px;font-weight:700;color:var(--navy);margin-top:4px;text-align:center;max-width:66px;line-height:1.3;}
+.node-arrow{font-size:16px;color:var(--navy);padding-top:12px;flex-shrink:0;}
+.n-source{background:#D4EAF5;}.n-message{background:#D4F5E8;}.n-channel{background:#F5F0D4;}
+.n-receiver{background:#EDD4F5;}.n-feedback{background:#F5D4D4;}.n-noise{background:#F5E8D4;}
 
 /* PROGRESS */
-.progress-wrap{margin-bottom:20px;}
-.progress-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.progress-wrap{margin-bottom:14px;}
+.progress-meta{display:flex;justify-content:space-between;margin-bottom:6px;}
 .progress-meta span{font-size:13px;font-weight:700;color:var(--cream);}
-.progress-track{height:10px;background:rgba(26,37,53,0.2);border-radius:99px;border:1.5px solid var(--border);}
+.streak-disp{color:var(--yellow);}
+.progress-track{height:9px;background:rgba(26,37,53,.2);border-radius:99px;border:1.5px solid var(--navy);}
 .progress-fill{height:100%;background:var(--yellow);border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1);}
 
 /* TIMER */
-.timer-wrap{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
-.timer-bar-track{flex:1;height:10px;background:rgba(26,37,53,0.2);border-radius:99px;border:1.5px solid var(--border);overflow:hidden;}
+.timer-wrap{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.timer-bar-track{flex:1;height:9px;background:rgba(26,37,53,.2);border-radius:99px;border:1.5px solid var(--navy);overflow:hidden;}
 .timer-bar-fill{height:100%;border-radius:99px;transition:width .1s linear,background .3s;}
-.timer-num{font-family:'Caveat',cursive;font-size:20px;font-weight:700;min-width:36px;text-align:right;color:var(--cream);}
+.timer-num{font-family:'Caveat',cursive;font-size:19px;font-weight:700;min-width:34px;text-align:right;color:var(--cream);}
+
+/* HOT TAKE POLL */
+.poll-wrap{background:var(--navy);border:2px solid var(--navy);border-radius:14px;padding:18px;margin-bottom:14px;}
+.poll-wrap h4{font-family:'Caveat',cursive;font-size:19px;color:var(--yellow);margin-bottom:6px;}
+.poll-wrap p{font-size:13px;font-weight:600;color:var(--cream);margin-bottom:14px;}
+.poll-scale{display:flex;gap:8px;justify-content:center;margin-bottom:12px;}
+.poll-btn{width:44px;height:44px;border-radius:50%;border:2px solid var(--cream);background:transparent;color:var(--cream);font-size:15px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .15s;}
+.poll-btn:hover,.poll-btn.selected{background:var(--yellow);color:var(--navy);border-color:var(--yellow);}
+.poll-results{display:none;}
+.poll-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.poll-bar-label{font-size:12px;font-weight:700;color:var(--cream);width:16px;text-align:center;}
+.poll-bar-track{flex:1;height:8px;background:rgba(255,255,255,.15);border-radius:99px;overflow:hidden;}
+.poll-bar-fill{height:100%;background:var(--yellow);border-radius:99px;transition:width .6s ease;}
+.poll-count{font-size:11px;font-weight:600;color:var(--cream);opacity:.7;min-width:30px;}
+
+/* INSTRUCTOR */
+.instructor-bar{background:var(--navy);border-radius:12px;padding:11px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.instructor-bar span{font-size:12px;font-weight:700;color:var(--yellow);}
+.ibtn{background:var(--yellow);color:var(--navy);border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;}
 
 /* BADGE */
-.badge{
-  display:inline-block;font-size:11px;font-weight:800;letter-spacing:.5px;
-  text-transform:uppercase;padding:5px 14px;border-radius:99px;
-  margin-bottom:14px;border:2px solid var(--border);
-  box-shadow:2px 2px 0 var(--border);
-}
-.badge.barrier{background:#F0D4D4;color:#8B3030;}
+.badge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;padding:4px 12px;border-radius:99px;margin-bottom:10px;border:2px solid var(--navy);box-shadow:2px 2px 0 var(--navy);}
+.badge.barrier{background:var(--red-bg);color:var(--red);}
 .badge.channel{background:#D4E0F0;color:#1A3A70;}
-.badge.feedbackloop{background:#E0D4F0;color:#4A1A80;}
+.badge.feedbackloop{background:var(--purple-bg);color:var(--purple);}
 .badge.nonverbal{background:#F0E8D4;color:#704A1A;}
-.badge.active-listening{background:var(--green-correct-bg);color:var(--green-correct);}
+.badge.active-listening{background:var(--green-bg);color:var(--green);}
+
+/* GLOSSARY TERMS */
+.gterm{border-bottom:2px dashed var(--yellow-dark);cursor:pointer;font-weight:700;}
+.gterm:hover{background:rgba(232,200,74,.25);border-radius:3px;}
+.tooltip{position:fixed;background:var(--navy);color:var(--cream);border:2px solid var(--yellow);border-radius:10px;padding:10px 14px;font-size:12px;font-weight:600;line-height:1.5;max-width:240px;z-index:9999;box-shadow:3px 3px 0 var(--yellow);pointer-events:none;display:none;}
+
+/* TYPEWRITER */
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+.cursor{display:inline-block;width:2px;height:14px;background:var(--cream);margin-left:2px;animation:blink .7s infinite;vertical-align:middle;}
 
 /* SCENARIO */
-.scenario-card{
-  background:var(--teal);
-  border:2px solid var(--border);border-radius:12px;
-  padding:18px 20px;margin-bottom:18px;
-  box-shadow:3px 3px 0 var(--border);
-}
-.scenario-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--cream);margin-bottom:8px;}
-.scenario-text{font-size:14px;line-height:1.75;color:var(--cream);}
+.scenario-card{background:var(--teal-dark);border:2px solid var(--navy);border-radius:12px;padding:15px 17px;margin-bottom:14px;box-shadow:2px 2px 0 var(--navy);}
+.scenario-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--cream);margin-bottom:7px;}
+.scenario-text{font-size:14px;line-height:1.75;color:var(--cream);min-height:60px;}
 
-/* QUESTION */
-.question{font-size:17px;font-weight:800;color:var(--navy);margin-bottom:16px;line-height:1.4;}
+/* HINT */
+.hint-box{background:var(--yellow);border:2px solid var(--navy);border-radius:10px;padding:11px 14px;margin-bottom:12px;box-shadow:2px 2px 0 var(--navy);}
+.hint-box p{font-size:13px;font-weight:700;color:var(--navy);line-height:1.5;}
+
+/* WATCH OUT TIP */
+.watchout-tip{background:var(--purple-bg);border:2px solid var(--purple);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:13px;font-weight:600;color:var(--purple);line-height:1.5;}
+.watchout-tip strong{font-weight:800;}
 
 /* OPTIONS */
-.options{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
-.opt{
-  background:#fff;border:2px solid var(--border);border-radius:12px;
-  padding:13px 16px;text-align:left;cursor:pointer;
-  font-size:14px;font-weight:600;color:var(--navy);
-  font-family:'Nunito',sans-serif;line-height:1.5;
-  display:flex;align-items:flex-start;gap:12px;
-  box-shadow:3px 3px 0 var(--border);
-  transition:transform .1s,box-shadow .1s,background .1s;
-}
-.opt:hover:not(:disabled){background:var(--cream-dark);transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--border);}
-.opt:active:not(:disabled){transform:translate(1px,1px);box-shadow:2px 2px 0 var(--border);}
-.opt-letter{
-  width:28px;height:28px;min-width:28px;border-radius:50%;
-  background:var(--teal);border:2px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Caveat',cursive;font-size:16px;font-weight:700;color:var(--cream);
-  margin-top:0px;transition:all .15s;flex-shrink:0;
-}
-.opt.correct{background:var(--green-correct-bg);border-color:var(--green-correct);box-shadow:3px 3px 0 var(--green-correct);}
-.opt.correct .opt-letter{background:var(--green-correct);border-color:var(--green-correct);color:#fff;}
-.opt.wrong{background:var(--red-wrong-bg);border-color:var(--red-wrong);box-shadow:3px 3px 0 var(--red-wrong);}
-.opt.wrong .opt-letter{background:var(--red-wrong);border-color:var(--red-wrong);color:#fff;}
+.options{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+.opt{background:#fff;border:2px solid var(--navy);border-radius:12px;padding:12px 14px;text-align:left;cursor:pointer;font-size:14px;font-weight:600;color:var(--navy);font-family:'Nunito',sans-serif;line-height:1.5;display:flex;align-items:flex-start;gap:10px;box-shadow:2px 2px 0 var(--navy);transition:transform .1s,box-shadow .1s,background .1s;}
+.opt:hover:not(:disabled){background:var(--cream-dark);transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--navy);}
+.opt-letter{width:27px;height:27px;min-width:27px;border-radius:50%;background:var(--teal);border:2px solid var(--navy);display:flex;align-items:center;justify-content:center;font-family:'Caveat',cursive;font-size:15px;font-weight:700;color:var(--cream);flex-shrink:0;}
+.opt.correct{background:var(--green-bg);border-color:var(--green);box-shadow:2px 2px 0 var(--green);}
+.opt.correct .opt-letter{background:var(--green);border-color:var(--green);color:#fff;}
+.opt.wrong{background:var(--red-bg);border-color:var(--red);box-shadow:2px 2px 0 var(--red);}
+.opt.wrong .opt-letter{background:var(--red);border-color:var(--red);color:#fff;}
 .opt:disabled{cursor:default;}
+.opt.hidden-opt{display:none;}
 
 /* FEEDBACK */
-.feedback{
-  border-radius:12px;padding:15px 17px;font-size:14px;line-height:1.7;
-  display:none;margin-bottom:18px;border:2px solid;font-weight:600;
-}
-.feedback.correct{background:var(--green-correct-bg);border-color:var(--green-correct);color:#1A4A30;}
-.feedback.wrong{background:var(--red-wrong-bg);border-color:var(--red-wrong);color:#5A1A1A;}
-.feedback strong{font-weight:800;}
+.feedback{border-radius:12px;padding:14px 15px;font-size:13px;line-height:1.7;display:none;margin-bottom:12px;border:2px solid;}
+.feedback.correct{background:var(--green-bg);border-color:var(--green);color:var(--green-dark);}
+.feedback.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red-dark);}
+.fs-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:5px;font-size:13px;}
+.fs-label{font-weight:800;min-width:88px;flex-shrink:0;}
+.wrong-why{background:#fff;border:1.5px solid var(--navy);border-radius:8px;padding:9px 12px;margin-top:8px;font-size:12px;font-weight:600;color:var(--navy);line-height:1.5;}
+.wrong-why strong{font-weight:800;color:var(--red);}
+.concept-tag{display:inline-block;background:var(--navy);color:var(--cream);font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;margin-top:6px;margin-right:6px;}
+.citation{font-size:11px;font-style:italic;color:var(--muted);margin-top:6px;font-weight:600;}
+.chapter-link{display:inline-block;background:var(--blue-bg);color:var(--blue);border:1.5px solid var(--blue);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;margin-top:6px;cursor:pointer;}
 
-/* NEXT BTN */
-.btn-next{
-  background:var(--yellow);color:var(--navy);
-  border:2.5px solid var(--border);border-radius:12px;
-  padding:13px 28px;font-size:15px;font-weight:800;
-  cursor:pointer;font-family:'Nunito',sans-serif;display:none;
-  box-shadow:3px 3px 0 var(--border);
-  transition:transform .1s,box-shadow .1s;
-}
-.btn-next:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--border);}
-.btn-next:active{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--border);}
+/* REWRITE COMPARE */
+.rewrite-compare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+.rw-box{border-radius:10px;padding:12px;border:2px solid;}
+.rw-box.bad{background:var(--red-bg);border-color:var(--red);}
+.rw-box.good{background:var(--green-bg);border-color:var(--green);}
+.rw-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;}
+.rw-box.bad .rw-label{color:var(--red);}
+.rw-box.good .rw-label{color:var(--green);}
+.rw-text{font-size:13px;font-weight:600;line-height:1.6;}
+.rw-box.bad .rw-text{color:var(--red-dark);}
+.rw-box.good .rw-text{color:var(--green-dark);}
+
+/* MODEL BREAKDOWN IN FEEDBACK */
+.model-breakdown-inline{margin-top:10px;}
+.model-breakdown-inline p{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.mbi-nodes{display:flex;align-items:center;gap:0;overflow-x:auto;padding:4px 0;}
+.mbi-node{display:flex;flex-direction:column;align-items:center;min-width:52px;}
+.mbi-circle{width:36px;height:36px;border-radius:50%;border:2px solid var(--navy);display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .3s;}
+.mbi-circle.broken{background:var(--red-bg)!important;border-color:var(--red)!important;box-shadow:0 0 0 3px rgba(139,48,48,.3);}
+.mbi-label{font-size:8px;font-weight:700;color:var(--navy);margin-top:3px;text-align:center;}
+.mbi-arrow{font-size:12px;color:var(--navy);padding-top:9px;flex-shrink:0;}
+
+/* PEER TEACH */
+.peer-teach-box{background:var(--blue-bg);border:2px solid var(--blue);border-radius:10px;padding:12px;margin-top:10px;display:none;}
+.peer-teach-box h4{font-size:13px;font-weight:800;color:var(--blue);margin-bottom:7px;}
+.peer-teach-input{width:100%;border:1.5px solid var(--navy);border-radius:8px;padding:9px 12px;font-family:'Nunito',sans-serif;font-size:13px;color:var(--navy);background:#fff;resize:none;height:60px;outline:none;}
+.peer-teach-input:focus{border-color:var(--blue);}
+.peer-save-btn{background:var(--blue-bg);color:var(--blue);border:2px solid var(--blue);border-radius:8px;padding:7px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;margin-top:6px;}
+
+/* VIDEO LINK */
+.video-link{display:flex;align-items:center;gap:10px;background:var(--navy);border-radius:10px;padding:11px 14px;margin-top:10px;cursor:pointer;text-decoration:none;}
+.video-link:hover{opacity:.9;}
+.video-thumb{width:40px;height:40px;background:var(--red);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.video-info{flex:1;}
+.video-title{font-size:12px;font-weight:700;color:var(--cream);}
+.video-sub{font-size:11px;color:rgba(245,240,208,.6);font-weight:600;}
+
+/* NEXT / REPLAY */
+.btn-replay{background:var(--purple-bg);color:var(--purple);border:2px solid var(--purple);border-radius:10px;padding:8px 15px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;display:none;margin-right:8px;margin-bottom:8px;}
+.btn-next{background:var(--yellow);color:var(--navy);border:2.5px solid var(--navy);border-radius:12px;padding:11px 24px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;display:none;box-shadow:3px 3px 0 var(--navy);transition:transform .1s,box-shadow .1s;}
+.btn-next:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--navy);}
+
+/* CONCEPT CARD */
+.concept-card{text-align:center;padding:8px 0;}
+.concept-card h2{font-family:'Caveat',cursive;font-size:26px;color:var(--cream);margin-bottom:8px;}
+.concept-card .cc-icon{font-size:46px;margin-bottom:10px;}
+.concept-card p{font-size:14px;font-weight:600;color:var(--cream);line-height:1.7;margin-bottom:14px;}
+.concept-card .cc-cite{font-size:12px;font-style:italic;color:rgba(245,240,208,.65);font-weight:600;}
 
 /* RESULTS */
 .results{text-align:center;}
-.confetti-wrap{position:relative;height:80px;margin-bottom:0;overflow:hidden;}
-.confetti-piece{position:absolute;width:10px;height:10px;animation:confettiFall 1.4s ease-out both;}
-@keyframes confettiFall{from{transform:translateY(-10px) rotate(0deg);opacity:1;}to{transform:translateY(90px) rotate(400deg);opacity:0;}}
-
-.score-ring{width:130px;height:130px;margin:0 auto 20px;position:relative;}
+.confetti-wrap{position:relative;height:60px;overflow:hidden;margin-bottom:4px;}
+.confetti-piece{position:absolute;width:9px;height:9px;animation:cfall 1.4s ease-out both;}
+@keyframes cfall{from{transform:translateY(-10px) rotate(0);opacity:1;}to{transform:translateY(70px) rotate(400deg);opacity:0;}}
+.score-ring{width:120px;height:120px;margin:0 auto 14px;position:relative;}
 .score-ring svg{transform:rotate(-90deg);}
-.ring-bg{fill:none;stroke:rgba(26,37,53,0.15);stroke-width:10;}
+.ring-bg{fill:none;stroke:rgba(26,37,53,.15);stroke-width:10;}
 .ring-fill{fill:none;stroke:var(--yellow);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1);}
 .score-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.score-num{font-family:'Caveat',cursive;font-size:38px;color:var(--navy);line-height:1;}
-.score-pct{font-size:13px;font-weight:700;color:var(--muted);}
-.results h2{font-family:'Caveat',cursive;font-size:32px;margin-bottom:8px;color:var(--navy);}
-.results .sub{font-size:14px;color:var(--muted);line-height:1.7;max-width:460px;margin:0 auto 24px;font-weight:600;}
+.score-num{font-family:'Caveat',cursive;font-size:34px;color:var(--navy);line-height:1;}
+.score-pct{font-size:12px;font-weight:700;color:var(--muted);}
+.results h2{font-family:'Caveat',cursive;font-size:28px;margin-bottom:6px;color:var(--navy);}
+.results .sub{font-size:14px;color:var(--muted);line-height:1.7;max-width:460px;margin:0 auto 16px;font-weight:600;}
+
+/* TROPHIES */
+.trophy-case{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:16px;}
+.trophy{background:var(--cream-dark);border:2px solid var(--navy);border-radius:12px;padding:10px 14px;text-align:center;box-shadow:2px 2px 0 var(--navy);min-width:100px;}
+.trophy-icon{font-size:28px;display:block;margin-bottom:4px;}
+.trophy-name{font-size:11px;font-weight:800;color:var(--navy);display:block;}
+.trophy-desc{font-size:10px;font-weight:600;color:var(--muted);}
+
+/* MISCONCEPTION CALLOUT */
+.misconception-box{background:var(--red-bg);border:2px solid var(--red);border-radius:12px;padding:14px;margin-bottom:14px;text-align:left;}
+.misconception-box h4{font-size:13px;font-weight:800;color:var(--red);margin-bottom:8px;}
+.misconception-item{font-size:13px;font-weight:600;color:var(--red-dark);margin-bottom:5px;padding-left:12px;position:relative;}
+.misconception-item::before{content:"⚠";position:absolute;left:0;font-size:11px;}
+
+/* CONCEPT BREAKDOWN */
+.concept-breakdown{text-align:left;margin-bottom:14px;}
+.cb-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:10px;}
+.cb-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.cb-label{font-size:12px;font-weight:700;color:var(--navy);min-width:120px;}
+.cb-bar-track{flex:1;height:9px;background:rgba(26,37,53,.1);border-radius:99px;border:1.5px solid var(--navy);overflow:hidden;}
+.cb-bar-fill{height:100%;border-radius:99px;transition:width 1s ease;}
+.cb-score{font-size:12px;font-weight:700;color:var(--navy);min-width:32px;text-align:right;}
+
+/* SPACED REPETITION */
+.spaced-rep{background:var(--teal-dark);border:2px solid var(--navy);border-radius:14px;padding:16px;margin-bottom:14px;}
+.spaced-rep h3{font-family:'Caveat',cursive;font-size:20px;color:var(--cream);margin-bottom:12px;}
+.sr-day{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;}
+.sr-day-label{background:var(--yellow);color:var(--navy);border:1.5px solid var(--navy);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:800;min-width:80px;text-align:center;flex-shrink:0;}
+.sr-content{font-size:13px;font-weight:600;color:var(--cream);line-height:1.5;}
 
 /* RECAP */
-.recap{margin-bottom:20px;text-align:left;}
 .recap-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:10px;}
-.recap-item{
-  background:#fff;border:2px solid var(--border);border-radius:12px;
-  padding:12px 14px;margin-bottom:8px;display:flex;gap:12px;align-items:flex-start;
-  box-shadow:2px 2px 0 var(--border);
-}
-.recap-icon{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;margin-top:1px;border:2px solid;}
-.recap-icon.ok{background:var(--green-correct-bg);color:var(--green-correct);border-color:var(--green-correct);}
-.recap-icon.bad{background:var(--red-wrong-bg);color:var(--red-wrong);border-color:var(--red-wrong);}
-.recap-q{font-size:13px;font-weight:700;margin-bottom:3px;color:var(--navy);}
-.recap-a{font-size:12px;color:var(--muted);font-weight:600;}
-.recap-a.wrong-ans{color:var(--red-wrong);}
+.recap-item{background:#fff;border:2px solid var(--navy);border-radius:12px;padding:11px 13px;margin-bottom:8px;display:flex;gap:10px;align-items:flex-start;box-shadow:2px 2px 0 var(--navy);}
+.recap-icon{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;margin-top:1px;border:2px solid;}
+.recap-icon.ok{background:var(--green-bg);color:var(--green);border-color:var(--green);}
+.recap-icon.bad{background:var(--red-bg);color:var(--red);border-color:var(--red);}
+.recap-q{font-size:12px;font-weight:700;margin-bottom:3px;color:var(--navy);}
+.recap-a{font-size:11px;color:var(--muted);font-weight:600;}
+.recap-a.wa{color:var(--red);}
 
 /* TAKEAWAYS */
-.takeaways{
-  background:var(--teal);border:2px solid var(--border);border-radius:14px;
-  padding:20px;text-align:left;margin-bottom:22px;box-shadow:3px 3px 0 var(--border);
-}
-.takeaways h3{font-family:'Caveat',cursive;font-size:20px;color:var(--cream);margin-bottom:12px;}
-.takeaways ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
-.takeaways li{font-size:13px;font-weight:600;color:var(--cream);line-height:1.6;display:flex;gap:10px;}
-.takeaways li::before{content:"";width:8px;height:8px;min-width:8px;background:var(--yellow);border-radius:50%;margin-top:7px;border:1.5px solid var(--border);}
-
-/* RESULT BTNS */
-.result-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:0;}
+.takeaways{background:var(--teal-dark);border:2px solid var(--navy);border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:3px 3px 0 var(--navy);}
+.takeaways h3{font-family:'Caveat',cursive;font-size:19px;color:var(--cream);margin-bottom:10px;}
+.takeaways ul{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.takeaways li{font-size:13px;font-weight:600;color:var(--cream);line-height:1.6;display:flex;gap:9px;}
+.takeaways li::before{content:"";width:7px;height:7px;min-width:7px;background:var(--yellow);border-radius:50%;margin-top:7px;border:1.5px solid var(--navy);}
 
 /* LEADERBOARD */
-.lb-header{margin-bottom:20px;}
-.lb-header h2{font-family:'Caveat',cursive;font-size:34px;color:var(--cream);margin-bottom:4px;}
-.lb-header p{font-size:13px;font-weight:600;color:var(--cream);opacity:.8;}
-.lb-table{
-  background:var(--cream);border:2.5px solid var(--border);border-radius:16px;
-  overflow:hidden;margin-bottom:20px;box-shadow:4px 4px 0 var(--border);
-}
-.lb-row{display:flex;align-items:center;gap:14px;padding:13px 18px;border-bottom:1.5px solid var(--border);}
+.lb-head{margin-bottom:16px;}
+.lb-head h2{font-family:'Caveat',cursive;font-size:30px;color:var(--cream);margin-bottom:3px;}
+.lb-head p{font-size:13px;font-weight:600;color:var(--cream);opacity:.8;}
+.lb-table{background:var(--cream);border:2.5px solid var(--navy);border-radius:16px;overflow:hidden;margin-bottom:14px;box-shadow:4px 4px 0 var(--navy);}
+.lb-row{display:flex;align-items:center;gap:10px;padding:11px 15px;border-bottom:1.5px solid var(--navy);}
 .lb-row:last-child{border-bottom:none;}
-.lb-row.header{background:var(--teal);padding:10px 18px;}
-.lb-row.header span{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--cream);}
-.lb-rank{width:32px;text-align:center;font-family:'Caveat',cursive;font-size:20px;color:var(--muted);}
+.lb-row.lbh{background:var(--teal-dark);padding:8px 15px;}
+.lb-row.lbh span{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--cream);}
+.lb-rank{width:28px;text-align:center;font-family:'Caveat',cursive;font-size:18px;color:var(--muted);}
 .lb-rank.top{color:var(--navy);}
-.lb-name{flex:1;font-size:15px;font-weight:700;color:var(--navy);}
-.lb-score{font-family:'Caveat',cursive;font-size:22px;color:var(--navy);}
-.lb-empty{text-align:center;padding:40px;color:var(--muted);font-size:14px;font-weight:600;}
+.lb-name{flex:1;font-size:13px;font-weight:700;color:var(--navy);}
+.lb-diff{font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;border:1.5px solid var(--navy);}
+.lb-score{font-family:'Caveat',cursive;font-size:20px;color:var(--navy);}
+.lb-empty{text-align:center;padding:32px;color:var(--muted);font-size:14px;font-weight:600;}
 
-.btn-danger{
-  background:#fff;color:var(--red-wrong);border:2px solid var(--red-wrong);
-  border-radius:10px;padding:8px 16px;font-size:13px;font-weight:700;
-  cursor:pointer;font-family:'Nunito',sans-serif;
-  box-shadow:2px 2px 0 var(--red-wrong);transition:transform .1s,box-shadow .1s;
-}
-.btn-danger:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--red-wrong);}
+/* MISCONCEPTION DASHBOARD */
+.misc-dashboard{background:var(--cream);border:2.5px solid var(--navy);border-radius:16px;overflow:hidden;margin-bottom:14px;box-shadow:4px 4px 0 var(--navy);}
+.misc-header{background:var(--teal-dark);padding:10px 16px;}
+.misc-header h3{font-family:'Caveat',cursive;font-size:18px;color:var(--cream);}
+.misc-row{padding:11px 16px;border-bottom:1.5px solid var(--navy);display:flex;align-items:center;gap:10px;}
+.misc-row:last-child{border-bottom:none;}
+.misc-q{flex:1;font-size:12px;font-weight:600;color:var(--navy);}
+.misc-pct{font-size:12px;font-weight:800;color:var(--red);}
 
-/* FADE IN */
+/* GLOSSARY */
+.glossary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.gloss-card{background:var(--cream);border:2px solid var(--navy);border-radius:12px;padding:13px;box-shadow:2px 2px 0 var(--navy);}
+.gloss-term{font-size:13px;font-weight:800;color:var(--navy);margin-bottom:4px;}
+.gloss-def{font-size:12px;font-weight:600;color:var(--muted);line-height:1.5;}
+.gloss-src{font-size:11px;font-style:italic;color:var(--teal-darker);margin-top:4px;font-weight:600;}
+.gloss-ch{font-size:11px;font-weight:700;color:var(--blue);margin-top:3px;}
+
+/* FADE */
 .fade-in{animation:fadeUp .3s ease both;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 
-@media(max-width:480px){
-  .info-grid{grid-template-columns:repeat(3,1fr);}
-  .start-screen h1{font-size:34px;}
-}
+/* SCENARIO BUILDER */
+.scenario-builder input,.scenario-builder select,.scenario-builder textarea{width:100%;border:2px solid var(--navy);border-radius:10px;padding:9px 12px;font-family:'Nunito',sans-serif;font-size:13px;color:var(--navy);background:#fff;outline:none;margin-bottom:10px;}
+.scenario-builder input:focus,.scenario-builder select:focus,.scenario-builder textarea:focus{border-color:var(--teal-dark);}
+.scenario-builder label{font-size:12px;font-weight:800;color:var(--navy);display:block;margin-bottom:4px;}
+.scenario-preview{background:var(--teal-dark);border:2px solid var(--navy);border-radius:10px;padding:13px;margin-top:10px;display:none;}
+.scenario-preview p{font-size:13px;font-weight:600;color:var(--cream);line-height:1.6;}
+
+@media(max-width:500px){.info-grid{grid-template-columns:repeat(2,1fr);}.glossary-grid{grid-template-columns:1fr;}.rewrite-compare{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
-
 <header>
   <div class="logo">Communication Breakdown</div>
-  <button class="lb-btn" onclick="switchView('leaderboard')">🏆 Leaderboard</button>
+  <div class="header-btns">
+    <button class="hbtn" onclick="switchView('pregame')" id="hbtn-pregame">📝 Pre-Quiz</button>
+    <button class="hbtn" onclick="switchView('glossary')">📖 Glossary</button>
+    <button class="hbtn" onclick="switchView('builder')">🛠 Build</button>
+    <button class="hbtn" onclick="switchView('leaderboard')">🏆 Scores</button>
+    <button class="hbtn" id="instructor-toggle" onclick="toggleInstructor()">👨‍🏫 Instructor</button>
+  </div>
 </header>
-
+<div class="tooltip" id="tooltip"></div>
 <div class="main" id="app"></div>
 
 <script>
-const STORAGE_KEY = 'comm_bdwn_lb_v3';
-const TIMER_SECONDS = 30;
-const letters = ['A','B','C','D'];
+const SK='comm_bdwn_v5';
+const TIMER=30;
+const LETTERS=['A','B','C','D'];
 
-const questions = [
-  {badge:"barrier",badgeLabel:"Communication Barrier",scenario:"Marcus sends a lengthy email to his team at 4:58 PM on Friday detailing urgent changes to Monday's project plan. On Monday, three team members say they never saw it, and two others skimmed it and missed the key deadline changes.",question:"What is the primary communication breakdown here?",options:["The message was too long and contained jargon","Wrong timing and channel — urgent info sent via a low-attention medium at a low-attention time","Marcus did not ask for feedback","The team members were not motivated to read the email"],correct:1,feedback:"Matching the channel to the message is critical. Urgent, time-sensitive information sent late on a Friday via email — a passive channel — is likely to be missed. A direct message, call, or Monday morning meeting would have been far more effective."},
-  {badge:"barrier",badgeLabel:"Semantic Noise",scenario:"Priya, a new HR intern, is asked to \"action the onboarding synergy deliverables before EOD.\" She spends an hour trying to figure out what this means and eventually completes the wrong tasks.",question:"Which type of communication noise caused this breakdown?",options:["Physical noise — too many distractions in the office","Psychological noise — Priya was stressed and distracted","Semantic noise — jargon and unclear language confused the receiver","Cultural noise — different workplace backgrounds"],correct:2,feedback:"Semantic noise occurs when language is unclear, overly technical, or full of jargon the receiver does not understand. \"Action,\" \"synergy deliverables,\" and \"EOD\" can all confuse someone new. Clear, plain language prevents this entirely."},
-  {badge:"feedbackloop",badgeLabel:"Feedback Loop",scenario:"During a team meeting, David presents a new process change. He asks \"Does everyone understand?\" and the room nods. Two weeks later, the team has implemented it four different ways because each person had a different interpretation.",question:"What step in the communication process failed?",options:["The source — David did not prepare well enough","The channel — a meeting was the wrong format","Feedback — yes/no confirmation does not verify actual understanding","The environment — the meeting room was distracting"],correct:2,feedback:"Asking \"do you understand?\" is a weak feedback loop — people will almost always say yes, even when they do not. Effective feedback means asking receivers to paraphrase the message or describe their next steps. This closes the loop and confirms shared understanding."},
-  {badge:"nonverbal",badgeLabel:"Non-Verbal Cues",scenario:"Sofia is video-calling a client to discuss a contract renewal. She is multitasking — typing responses to other emails while speaking. The client notices her eyes moving away from the camera and hears keyboard clicks, and later declines to renew.",question:"What communication concept best explains the client's reaction?",options:["The message was too direct and intimidating","Non-verbal cues — distracted body language contradicted Sofia's verbal message","The channel was inappropriate — email would have been better","Cultural differences in communication style"],correct:1,feedback:"Non-verbal communication — eye contact, body language, and even background sounds — carries significant meaning, especially in video calls. Sofia's non-verbal cues signalled disinterest even if her words were positive. Effective communicators align their non-verbal behaviour with their intended message."},
-  {badge:"channel",badgeLabel:"Channel Selection",scenario:"James needs to deliver constructive feedback to an employee about a performance issue. He sends a detailed email listing all the concerns. The employee reads it during a busy workday, feels blindsided, and becomes defensive during the follow-up meeting.",question:"What was James's key communication mistake?",options:["He gave too much feedback at once","Email is a poor channel for sensitive, high-stakes messages — it lacks tone and two-way dialogue","He should have copied HR on the email","The feedback was not specific enough"],correct:1,feedback:"Channel selection matters — not all messages are equal. Sensitive topics like performance feedback require a rich channel (face-to-face or video call) that allows for tone, empathy, and real-time dialogue. Email strips away these cues and gives the receiver no way to respond in the moment."},
-  {badge:"active-listening",badgeLabel:"Active Listening",scenario:"During a client call, Rachel keeps interrupting to offer solutions before the client finishes explaining the problem. The client ends the call feeling unheard and emails afterward saying they want to work with a different rep.",question:"What communication skill did Rachel fail to demonstrate?",options:["Encoding — she did not prepare her message properly","Active listening — she prioritized speaking over understanding the sender's full message","Channel selection — the phone was the wrong medium","Feedback — she did not summarize the call afterward"],correct:1,feedback:"Active listening means fully receiving and processing the sender's message before responding. Interrupting to offer solutions signals that you are not truly listening — it shifts focus from the sender's needs to your own agenda. Letting the client finish and then paraphrasing their concern builds trust and surfaces the real problem."},
-  {badge:"barrier",badgeLabel:"Psychological Noise",scenario:"An employee receives important instructions from her manager right after being told she is not getting the promotion she expected. She nods along but later cannot recall any details of what was said.",question:"What best explains why she missed the information?",options:["The manager used too much jargon","Physical noise in the office disrupted the message","Psychological noise — her emotional state interfered with her ability to receive the message","The message was delivered in the wrong channel"],correct:2,feedback:"Psychological noise refers to internal emotional interference — stress, anxiety, strong emotions — that prevents a receiver from fully processing a message. Being emotionally activated by bad news creates a mental barrier that can block retention even when someone appears to be listening."},
-  {badge:"feedbackloop",badgeLabel:"Upward Communication",scenario:"A junior analyst notices a serious error in the financial model being used for a client presentation. He decides not to say anything because his manager seems confident and he does not want to seem like he is overstepping.",question:"What organizational communication issue does this illustrate?",options:["Poor downward communication from management","A barrier to upward communication — hierarchy and fear suppressed critical feedback","Semantic noise — he did not understand the model himself","Incorrect channel selection for raising concerns"],correct:1,feedback:"Upward communication — information flowing from lower to higher levels — is often blocked by hierarchy, fear, or cultural norms around deference to authority. Organizations with strong communication cultures actively encourage employees to raise concerns without fear, because suppressed feedback leads to costly errors."},
-  {badge:"nonverbal",badgeLabel:"Written Tone",scenario:"Amir sends a quick reply to a colleague's detailed proposal: \"Sure, fine.\" The colleague spends the rest of the week anxious that Amir hates the idea, and brings it up apologetically in the next team meeting — to Amir's complete surprise.",question:"What caused this miscommunication?",options:["Amir used the wrong channel — he should have called","Written communication lacks non-verbal and tonal cues, so a brief reply was misread as disapproval","Amir should have provided more detailed feedback on the proposal","The colleague was too emotionally sensitive"],correct:1,feedback:"Written messages — especially short ones — strip away tone of voice and facial expressions. \"Sure, fine\" can read as enthusiastic agreement or cold indifference depending on the reader's emotional state. Brief written replies to sensitive situations require intentional warmth and clarity to prevent misinterpretation."},
-  {badge:"channel",badgeLabel:"Information Overload",scenario:"A manager sends a single email with 14 action items, three attached policy documents, two spreadsheets, and a 40-slide deck. She expects responses on all items by end of day. Her team completes only three of the action items and misses the rest.",question:"What communication problem best describes this situation?",options:["Semantic noise — the documents contained unclear language","Information overload — the volume of content exceeded the team's ability to process and act","Poor feedback — the team should have confirmed receipt","Cultural barriers — the team had different work norms"],correct:1,feedback:"Information overload occurs when the amount or complexity of information exceeds a receiver's capacity to process it. Dumping 14 action items and five attachments into one message guarantees that much of it will be missed. Effective communicators chunk information, prioritize clearly, and separate urgent actions from reference material."}
+/* ── GLOSSARY ── */
+const glossary={
+  'semantic noise':{def:'Interference caused by unclear, technical, or jargon-heavy language that the receiver does not understand.',cite:'Robbins & Judge (2019)',ch:'Ch. 11, p. 352'},
+  'psychological noise':{def:'Internal emotional or mental interference — stress, bias, anxiety — that blocks message processing.',cite:'Robbins & Judge (2019)',ch:'Ch. 11, p. 352'},
+  'physical noise':{def:'External environmental distractions (loud rooms, poor connection) that disrupt transmission.',cite:'Shannon & Weaver (1949)',ch:'Ch. 11, p. 350'},
+  'feedback loop':{def:'The receiver\'s response to a message that allows the sender to confirm the message was understood as intended.',cite:'Robbins & Judge (2019)',ch:'Ch. 11, p. 351'},
+  'channel richness':{def:'The capacity of a communication channel to convey information and nuance. Face-to-face is richest; text is leanest.',cite:'Daft & Lengel (1986)',ch:'Ch. 11, p. 356'},
+  'active listening':{def:'Fully concentrating on, understanding, and responding to a speaker — not just passively hearing words.',cite:'Robbins & Judge (2019)',ch:'Ch. 11, p. 365'},
+  'encoding':{def:'The process by which a sender translates thoughts into a communicable message (words, symbols, tone).',cite:'Shannon & Weaver (1949)',ch:'Ch. 11, p. 349'},
+  'decoding':{def:'The receiver\'s process of interpreting and making sense of the sender\'s encoded message.',cite:'Shannon & Weaver (1949)',ch:'Ch. 11, p. 349'},
+  'upward communication':{def:'Information flowing from lower-level employees to higher-level management in an organization.',cite:'Robbins & Judge (2019)',ch:'Ch. 11, p. 358'},
+  'information overload':{def:'When the quantity or complexity of information exceeds a receiver\'s capacity to process it effectively.',cite:'Robbins & Judge (2019)',ch:'Ch. 11, p. 363'},
+  'non-verbal communication':{def:'Messages conveyed through body language, facial expressions, eye contact, gestures, and tone — not words.',cite:'Robbins & Judge (2019)',ch:'Ch. 11, p. 360'},
+  'channel selection':{def:'Choosing the most appropriate medium to deliver a message based on its sensitivity, urgency, and complexity.',cite:'Daft & Lengel (1986)',ch:'Ch. 11, p. 356'}
+};
+
+/* ── PRE-GAME TRUE/FALSE ── */
+const preQuiz=[
+  {q:'Email is always the most professional channel for workplace communication.',ans:false,explain:'Email is a lean channel — it strips away tone and non-verbal cues. For sensitive or urgent messages, richer channels like face-to-face or video calls are more effective.',watch:'channel selection',affectedConcept:'Channel Selection'},
+  {q:'If someone nods along to what you are saying, it means they understand your message.',ans:false,explain:'Nodding is a weak feedback signal. True understanding requires active confirmation — asking the receiver to paraphrase or describe their next steps.',watch:'feedback loops',affectedConcept:'Feedback Loop'},
+  {q:'Communication breakdowns are always caused by the sender using unclear language.',ans:false,explain:'Breakdowns can occur at any stage of the model — channel, noise, receiver\'s emotional state, or failure of the feedback loop. The sender\'s language is only one possible cause.',watch:'the full communication model',affectedConcept:'Communication Model'}
 ];
 
-let current=0,score=0,soloAnswers=[],answered=false,timerInterval=null,timeLeft=TIMER_SECONDS,view='start';
+/* ── CONCEPT CARDS ── */
+const conceptCards=[
+  {icon:'📡',title:'Shannon-Weaver Model',body:'Communication flows through 8 elements: Source → Message → Channel → Receiver → Feedback, shaped by Environment, Context, and Interference. A breakdown at any element disrupts the whole message.',cite:'Shannon & Weaver (1949); Robbins & Judge (2019)'},
+  {icon:'📶',title:'Channel Richness',body:'Not all channels are equal. Face-to-face is the richest channel (tone, body language, real-time feedback). Email is lean — it strips away nuance. Match the richness of your channel to the sensitivity of your message.',cite:'Daft & Lengel (1986)'},
+  {icon:'🔊',title:'Three Types of Noise',body:'Physical noise (environment), Psychological noise (emotions, bias), and Semantic noise (jargon, unclear language) all interfere with accurate message transmission.',cite:'Robbins & Judge (2019)'},
+  {icon:'🔄',title:'The Feedback Loop',body:'Effective communication is two-way. The feedback loop allows the sender to verify the message was understood as intended. Weak feedback (nodding, "yes") creates an illusion of shared understanding without confirming it.',cite:'Robbins & Judge (2019)'}
+];
 
-function getLeaderboard(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');}catch{return[];}}
-function saveToLeaderboard(entry){const lb=getLeaderboard();lb.push(entry);lb.sort((a,b)=>b.score-a.score||a.time-b.time);localStorage.setItem(STORAGE_KEY,JSON.stringify(lb.slice(0,20)));}
+/* ── QUESTIONS ── */
+const questions=[
+  {badge:'barrier',badgeLabel:'Communication Barrier',concept:'Channel & Timing',modelEl:'channel',
+   scenario:'Marcus sends a lengthy email to his team at 4:58 PM on Friday detailing urgent changes to Monday\'s project plan. On Monday, three team members say they never saw it, and two others skimmed it and missed the key deadline changes.',
+   question:'What is the primary communication breakdown here?',
+   options:['The message was too long and contained jargon','Wrong timing and channel — urgent info sent via a low-attention medium at a low-attention time','Marcus did not ask for feedback','The team members were not motivated to read the email'],
+   correct:1,hint:'Think about when and how the message was sent. Was a Friday 5 PM email the best way to share something urgent?',
+   wrongWhy:{0:'Length and jargon are secondary issues — the message was never even read properly.',2:'Feedback matters, but the core failure happened before that step.',3:'Motivation is not the issue — the timing and channel made the message easy to miss.'},
+   feedback:'Matching the channel to the message is critical. Urgent, time-sensitive information sent late on a Friday via email — a passive channel — is likely to be missed.',
+   whatWentWrong:'Marcus chose a passive channel (email) and sent it at a time when attention was minimal.',
+   whatShouldHappen:'Use a richer channel for urgent messages — a direct message, phone call, or Monday morning standup.',
+   badRewrite:'Subject: Important changes. Hi team, I wanted to share some critical updates to Monday\'s project plan (see attached). Please review the 14 bullet points and respond by EOD.',
+   goodRewrite:'[Monday morning standup] "Before we start — there are three key changes to today\'s plan. Let me walk through each one and confirm we\'re aligned before anyone begins."',
+   videoTitle:'Why urgent emails get ignored',videoSub:'HBR — Channel selection in practice',videoUrl:'https://www.youtube.com/results?search_query=workplace+email+communication+failure+channel+selection',
+   citation:'Robbins, S. P., & Judge, T. A. (2019). Organizational behavior (18th ed.). Pearson. Ch. 11.'},
+  {badge:'barrier',badgeLabel:'Semantic Noise',concept:'Semantic Noise',modelEl:'noise',
+   scenario:'Priya, a new HR intern, is asked to "action the onboarding synergy deliverables before EOD." She spends an hour trying to figure out what this means and eventually completes the wrong tasks.',
+   question:'Which type of communication noise caused this breakdown?',
+   options:['Physical noise — too many distractions in the office','Psychological noise — Priya was stressed and distracted','Semantic noise — jargon and unclear language confused the receiver','Cultural noise — different workplace backgrounds'],
+   correct:2,hint:'The words themselves were the problem — not the environment or Priya\'s emotions.',
+   wrongWhy:{0:'There is no mention of a noisy or distracting environment.',1:'Priya is not described as stressed — she is confused by the language.',3:'Cultural background is not the identified issue — the jargon itself is unclear to anyone new.'},
+   feedback:'"Action," "synergy deliverables," and "EOD" are workplace jargon that can confuse someone new. Semantic noise occurs when language creates a barrier to understanding.',
+   whatWentWrong:'The sender used jargon-heavy language that was not accessible to a new employee.',
+   whatShouldHappen:'"Please complete the new-hire checklist and send it to HR before 5 PM today."',
+   badRewrite:'"Action the onboarding synergy deliverables before EOD."',
+   goodRewrite:'"Priya, can you complete the three tasks on the new hire checklist in the shared folder and send them to me by 5 PM today?"',
+   videoTitle:'Workplace jargon and miscommunication',videoSub:'TED — The problem with corporate speak',videoUrl:'https://www.youtube.com/results?search_query=workplace+jargon+miscommunication+ted',
+   citation:'Robbins, S. P., & Judge, T. A. (2019). Organizational behavior (18th ed.). Pearson. Ch. 11.'},
+  {badge:'feedbackloop',badgeLabel:'Feedback Loop',concept:'Feedback Loop',modelEl:'feedback',
+   scenario:'During a team meeting, David presents a new process change. He asks "Does everyone understand?" and the room nods. Two weeks later, the team has implemented it four different ways.',
+   question:'What step in the communication process failed?',
+   options:['The source — David did not prepare well enough','The channel — a meeting was the wrong format','Feedback — yes/no confirmation does not verify actual understanding','The environment — the meeting room was distracting'],
+   correct:2,hint:'The message was delivered and received — but was understanding actually confirmed?',
+   wrongWhy:{0:'The source prepared and delivered the presentation — preparation is not the problem.',1:'A meeting is a rich channel. The format was fine; the confirmation step failed.',3:'There is no mention of environmental distractions.'},
+   feedback:'Asking "do you understand?" is a weak feedback loop — people will almost always say yes. Effective feedback means asking receivers to paraphrase the message or describe their next steps.',
+   whatWentWrong:'David used passive confirmation (nodding) that did not reveal whether anyone truly understood the change.',
+   whatShouldHappen:'"Can someone walk me through how they would apply this to Tuesday\'s workflow?" — active paraphrase confirms real understanding.',
+   badRewrite:'"Does everyone get it? Great. Let\'s move on."',
+   goodRewrite:'"Before we move on — can someone summarize the three key changes in their own words? And what does this mean for your team specifically?"',
+   videoTitle:'How to close the feedback loop',videoSub:'MindTools — Active listening techniques',videoUrl:'https://www.youtube.com/results?search_query=feedback+loop+communication+active+listening+workplace',
+   citation:'Robbins, S. P., & Judge, T. A. (2019). Organizational behavior (18th ed.). Pearson. Ch. 11.'},
+  {badge:'nonverbal',badgeLabel:'Non-Verbal Cues',concept:'Non-Verbal Communication',modelEl:'message',
+   scenario:'Sofia is video-calling a client to discuss a contract renewal. She is multitasking — typing responses to other emails while speaking. The client notices her eyes moving and hears keyboard clicks, and later declines to renew.',
+   question:'What communication concept best explains the client\'s reaction?',
+   options:['The message was too direct and intimidating','Non-verbal cues — distracted body language contradicted Sofia\'s verbal message','The channel was inappropriate — email would have been better','Cultural differences in communication style'],
+   correct:1,hint:'What did the client observe — not hear — that shaped their reaction?',
+   wrongWhy:{0:'Directness is not described as an issue; the problem is behaviour during the call.',2:'Video call is a rich channel — the issue was how Sofia used it.',3:'Cultural differences are not identified in this scenario.'},
+   feedback:'Non-verbal communication — eye contact, body language, and background sounds — carries as much meaning as words, especially in video calls. Sofia\'s non-verbal cues signalled disinterest even if her words were positive.',
+   whatWentWrong:'Multitasking during a high-stakes call sent signals of disengagement that contradicted Sofia\'s words.',
+   whatShouldHappen:'Close all other tabs, face the camera, and give the client undivided attention — especially for renewal conversations.',
+   badRewrite:'[Sofia typing while saying] "Absolutely, we value your partnership and want to make sure this works for you..."',
+   goodRewrite:'[Sofia, camera on, no distractions] "I\'ve set aside this time specifically for you. Tell me what matters most to you in the next contract."',
+   videoTitle:'Non-verbal communication in video calls',videoSub:'Forbes — Virtual meeting body language',videoUrl:'https://www.youtube.com/results?search_query=non+verbal+communication+video+call+body+language',
+   citation:'Robbins, S. P., & Judge, T. A. (2019). Organizational behavior (18th ed.). Pearson. Ch. 11.'},
+  {badge:'channel',badgeLabel:'Channel Selection',concept:'Channel Richness',modelEl:'channel',
+   scenario:'James needs to deliver constructive feedback to an employee about a performance issue. He sends a detailed email listing all the concerns. The employee feels blindsided and becomes defensive during the follow-up meeting.',
+   question:'What was James\'s key communication mistake?',
+   options:['He gave too much feedback at once','Email is a poor channel for sensitive, high-stakes messages — it lacks tone and two-way dialogue','He should have copied HR on the email','The feedback was not specific enough'],
+   correct:1,hint:'Think about what the employee needed in that moment — and whether email could provide it.',
+   wrongWhy:{0:'Volume of feedback is secondary; the channel choice caused the emotional blindsiding.',2:'Copying HR is administrative — not a communication channel solution.',3:'Specificity is not identified as the problem here.'},
+   feedback:'Sensitive topics like performance feedback require a rich communication channel — face-to-face or video — that allows for tone, empathy, and real-time dialogue.',
+   whatWentWrong:'James chose a lean channel (email) for a high-sensitivity message, removing his ability to manage tone or respond to the employee\'s reaction.',
+   whatShouldHappen:'Schedule a private 1-on-1. Use email only as a written follow-up summary of what was discussed in person.',
+   badRewrite:'"Hi [Name], I wanted to share some concerns about your recent performance. [14 bullet points follow]."',
+   goodRewrite:'[In a private meeting] "I want to have an honest conversation about a few things I\'ve noticed. I care about your development and want us to work through this together."',
+   videoTitle:'How to deliver difficult feedback',videoSub:'HBR — Performance conversations that work',videoUrl:'https://www.youtube.com/results?search_query=how+to+deliver+difficult+feedback+workplace+HBR',
+   citation:'Daft, R. L., & Lengel, R. H. (1986). Management Science, 32(5), 554–571.'},
+  {badge:'active-listening',badgeLabel:'Active Listening',concept:'Active Listening',modelEl:'receiver',
+   scenario:'During a client call, Rachel keeps interrupting to offer solutions before the client finishes explaining the problem. The client ends the call feeling unheard and requests a different rep.',
+   question:'What communication skill did Rachel fail to demonstrate?',
+   options:['Encoding — she did not prepare her message properly','Active listening — she prioritized speaking over understanding the sender\'s full message','Channel selection — the phone was the wrong medium','Feedback — she did not summarize the call afterward'],
+   correct:1,hint:'The client felt unheard. What skill, if used, would have made them feel heard?',
+   wrongWhy:{0:'Encoding refers to constructing a message — Rachel\'s problem was receiving, not sending.',2:'The phone is appropriate for a client call.',3:'A summary would have helped, but the root failure was interrupting before the problem was fully stated.'},
+   feedback:'Active listening means fully receiving and processing the sender\'s message before responding. Interrupting to offer solutions signals you are not truly listening.',
+   whatWentWrong:'Rachel shifted focus from the client\'s needs to her own solution-giving, before fully understanding the problem.',
+   whatShouldHappen:'"Let me make sure I understand — you\'re saying [paraphrase]. Is that right?" Listen first, respond second.',
+   badRewrite:'"I can already see what\'s happening here — let me tell you exactly what we\'ll do to fix it..."',
+   goodRewrite:'"I want to make sure I understand the full picture before we talk solutions. Can you walk me through what happened from the beginning?"',
+   videoTitle:'Active listening in professional settings',videoSub:'TED — The art of listening',videoUrl:'https://www.youtube.com/results?search_query=active+listening+ted+talk+professional',
+   citation:'Robbins, S. P., & Judge, T. A. (2019). Organizational behavior (18th ed.). Pearson. Ch. 11.'},
+  {badge:'barrier',badgeLabel:'Psychological Noise',concept:'Psychological Noise',modelEl:'noise',
+   scenario:'An employee receives important instructions from her manager right after being told she is not getting the expected promotion. She nods along but later cannot recall any details of what was said.',
+   question:'What best explains why she missed the information?',
+   options:['The manager used too much jargon','Physical noise in the office disrupted the message','Psychological noise — her emotional state interfered with her ability to receive the message','The message was delivered in the wrong channel'],
+   correct:2,hint:'She appeared to listen — but her internal state prevented her from actually processing the message.',
+   wrongWhy:{0:'Jargon is not described — the words themselves were not the issue.',1:'There is no mention of a noisy physical environment.',3:'Channel choice is not identified as the problem.'},
+   feedback:'Psychological noise refers to internal emotional interference that prevents a receiver from fully processing a message. Being emotionally activated by bad news can block retention even when someone appears to be listening.',
+   whatWentWrong:'The manager delivered important information immediately after an emotionally activating event, without allowing time for the employee to stabilize.',
+   whatShouldHappen:'After difficult news, give the person time to process. Follow up important instructions in writing, or reschedule the briefing for later.',
+   badRewrite:'[Immediately after delivering the promotion decision] "OK, now let me walk you through your new Q3 responsibilities..."',
+   goodRewrite:'"That was a lot to process. Let\'s take a break and reconnect in an hour to talk through what\'s ahead for you."',
+   videoTitle:'Emotional state and listening',videoSub:'Psychology Today — How emotions block information',videoUrl:'https://www.youtube.com/results?search_query=emotional+state+listening+psychological+noise+communication',
+   citation:'Robbins, S. P., & Judge, T. A. (2019). Organizational behavior (18th ed.). Pearson. Ch. 11.'},
+  {badge:'feedbackloop',badgeLabel:'Upward Communication',concept:'Organizational Communication',modelEl:'feedback',
+   scenario:'A junior analyst notices a serious error in the financial model being used for a client presentation. He decides not to say anything because his manager seems confident and he does not want to seem like he is overstepping.',
+   question:'What organizational communication issue does this illustrate?',
+   options:['Poor downward communication from management','A barrier to upward communication — hierarchy and fear suppressed critical feedback','Semantic noise — he did not understand the model himself','Incorrect channel selection for raising concerns'],
+   correct:1,hint:'The information existed — but it never travelled upward. Why?',
+   wrongWhy:{0:'This is about information not reaching management — not management failing to communicate down.',2:'The analyst understood the model well enough to spot the error.',3:'The analyst never attempted to communicate — the barrier was psychological, not a channel choice.'},
+   feedback:'Upward communication — information flowing from lower to higher levels — is often blocked by hierarchy, fear, or cultural norms around deference to authority.',
+   whatWentWrong:'Hierarchical pressure and fear of judgment created a psychological barrier that prevented critical information from reaching decision-makers.',
+   whatShouldHappen:'Organizations need explicit psychological safety norms. The analyst should feel confident saying: "I noticed something I want to flag before the presentation."',
+   badRewrite:'[Internal thought] "It\'s probably fine. They\'re more experienced than me. I don\'t want to look stupid."',
+   goodRewrite:'"Before we present, I noticed what might be an error in row 14 of the model. I could be wrong, but can we double check it quickly?"',
+   videoTitle:'Psychological safety at work',videoSub:'Amy Edmondson — TED Talk',videoUrl:'https://www.youtube.com/results?search_query=amy+edmondson+psychological+safety+ted',
+   citation:'Robbins, S. P., & Judge, T. A. (2019). Organizational behavior (18th ed.). Pearson. Ch. 11.'},
+  {badge:'nonverbal',badgeLabel:'Written Tone',concept:'Non-Verbal Communication',modelEl:'message',
+   scenario:'Amir sends a quick reply to a colleague\'s detailed proposal: "Sure, fine." The colleague spends the rest of the week anxious that Amir hates the idea, and brings it up apologetically in the next team meeting.',
+   question:'What caused this miscommunication?',
+   options:['Amir used the wrong channel — he should have called','Written communication lacks non-verbal and tonal cues, so a brief reply was misread as disapproval','Amir should have provided more detailed feedback on the proposal','The colleague was too emotionally sensitive'],
+   correct:1,hint:'What did the colleague hear in those two words that Amir did not intend?',
+   wrongWhy:{0:'A call would help, but the core issue is that written text stripped away Amir\'s actual tone.',2:'More feedback would help, but the root cause is the ambiguity of the reply, not lack of detail.',3:'Attributing this to sensitivity ignores that written communication objectively removes tonal cues.'},
+   feedback:'Written messages — especially short ones — strip away tone of voice and facial expressions. "Sure, fine" can read as enthusiastic agreement or cold indifference depending on the reader\'s emotional state.',
+   whatWentWrong:'Amir\'s reply removed all tonal cues, leaving the receiver to interpret meaning from two ambiguous words.',
+   whatShouldHappen:'"Sure, this looks great — let\'s go with it!" adds less than 10 words and eliminates all ambiguity.',
+   badRewrite:'"Sure, fine."',
+   goodRewrite:'"Love this idea — let\'s move forward with your proposal. Great work putting it together."',
+   videoTitle:'Tone in written communication',videoSub:'MindTools — Writing with clarity',videoUrl:'https://www.youtube.com/results?search_query=written+communication+tone+misunderstanding+workplace',
+   citation:'Robbins, S. P., & Judge, T. A. (2019). Organizational behavior (18th ed.). Pearson. Ch. 11.'},
+  {badge:'channel',badgeLabel:'Information Overload',concept:'Information Overload',modelEl:'message',
+   scenario:'A manager sends a single email with 14 action items, three policy documents, two spreadsheets, and a 40-slide deck. She expects responses on all items by end of day. Her team completes only three items.',
+   question:'What communication problem best describes this situation?',
+   options:['Semantic noise — the documents contained unclear language','Information overload — the volume of content exceeded the team\'s ability to process and act','Poor feedback — the team should have confirmed receipt','Cultural barriers — the team had different work norms'],
+   correct:1,hint:'The team received the message — but could they realistically process all of it?',
+   wrongWhy:{0:'Unclear language is not described as the problem — volume is.',2:'Confirmation of receipt does not solve the underlying problem of too much content.',3:'There is no indication of cultural differences.'},
+   feedback:'Information overload occurs when the amount or complexity of information exceeds a receiver\'s capacity to process it. Effective communicators chunk information and prioritize clearly.',
+   whatWentWrong:'The manager treated one email as a substitute for structured communication — prioritization, sequencing, and chunking were all absent.',
+   whatShouldHappen:'Send a separate "action required" email with no more than 3 prioritized items. Attach reference materials separately. Follow up in a meeting.',
+   badRewrite:'"Hi team, please see attached (14 action items + 5 files). All responses due today. Thanks."',
+   goodRewrite:'"Three things need your attention today — [1], [2], [3]. I\'ve attached the reference docs separately. The full policy review can wait until next week."',
+   videoTitle:'Managing information overload at work',videoSub:'Harvard Business Review',videoUrl:'https://www.youtube.com/results?search_query=information+overload+workplace+communication+HBR',
+   citation:'Robbins, S. P., & Judge, T. A. (2019). Organizational behavior (18th ed.). Pearson. Ch. 11.'}
+];
 
-function render(){
-  const app=document.getElementById('app');
-  if(view==='start') renderStart(app);
-  else if(view==='game') renderGame(app);
-  else if(view==='results') renderResults(app);
-  else if(view==='leaderboard') renderLeaderboard(app);
+/* ── GLOBAL STATE ── */
+let current=0,score=0,answers=[],answered=false,timerInt=null,timeLeft=TIMER;
+let view='start',difficulty='medium',streak=0,maxStreak=0;
+let instructorMode=false,instructorPaused=false;
+let conceptCardQueue=[...conceptCards];
+let preQuizResults=[];
+let personalizedTips={};
+let peerTeachAnswers={};
+let pollData={};
+let scenarioPool=[...questions];
+let miscTrackerData={};
+
+/* ── LEADERBOARD ── */
+function getLB(){try{return JSON.parse(localStorage.getItem(SK)||'[]');}catch{return[];}}
+function saveLB(e){const lb=getLB();lb.push(e);lb.sort((a,b)=>b.score-a.score||a.time-b.time);localStorage.setItem(SK,JSON.stringify(lb.slice(0,25)));}
+function getMisc(){try{return JSON.parse(localStorage.getItem(SK+'_misc')||'{}');}catch{return {};}}
+function saveMisc(data){localStorage.setItem(SK+'_misc',JSON.stringify(data));}
+
+/* ── TOOLTIP / GLOSSARY ── */
+function attachGlossary(){
+  document.querySelectorAll('.gterm').forEach(el=>{
+    el.addEventListener('mouseenter',e=>{
+      const key=el.dataset.term;const g=glossary[key];if(!g)return;
+      const tt=document.getElementById('tooltip');
+      tt.innerHTML=`<strong>${key}</strong><br>${g.def}<br><em style="opacity:.7;font-size:11px;">${g.cite} — ${g.ch}</em>`;
+      tt.style.display='block';
+      const r=el.getBoundingClientRect();
+      tt.style.left=Math.min(r.left,window.innerWidth-260)+'px';
+      tt.style.top=(r.bottom+6)+'px';
+    });
+    el.addEventListener('mouseleave',()=>{document.getElementById('tooltip').style.display='none';});
+  });
 }
 
+function tagTerms(text){
+  let r=text;
+  Object.keys(glossary).forEach(term=>{
+    const re=new RegExp(`\\b(${term.replace(/[-()]/g,'\\$&')})\\b`,'gi');
+    r=r.replace(re,`<span class="gterm" data-term="${term}">$1</span>`);
+  });
+  return r;
+}
+
+/* ── INSTRUCTOR ── */
+function toggleInstructor(){
+  instructorMode=!instructorMode;
+  document.getElementById('instructor-toggle').classList.toggle('active',instructorMode);
+  if(view==='game')render();
+}
+
+/* ── ROUTER ── */
+function switchView(v){clearTimer();view=v;render();}
+function render(){
+  const app=document.getElementById('app');
+  if(view==='start')renderStart(app);
+  else if(view==='pregame')renderPreGame(app);
+  else if(view==='game')renderGame(app);
+  else if(view==='concept')renderConceptCard(app);
+  else if(view==='results')renderResults(app);
+  else if(view==='leaderboard')renderLeaderboard(app);
+  else if(view==='glossary')renderGlossary(app);
+  else if(view==='builder')renderBuilder(app);
+  attachGlossary();
+}
+
+/* ── PRE-GAME QUIZ ── */
+let preIdx=0;
+function renderPreGame(app){
+  clearTimer();preIdx=0;preQuizResults=[];personalizedTips={};
+  renderPreQ(app);
+}
+function renderPreQ(app){
+  if(preIdx>=preQuiz.length){
+    // summarize
+    const wrong=preQuiz.filter((_,i)=>!preQuizResults[i]);
+    wrong.forEach(q=>{personalizedTips[q.affectedConcept]='⚠️ Watch out for questions about '+q.watch+' — this is an area to pay close attention to.';});
+    app.innerHTML=`<div class="card fade-in" style="text-align:center;">
+      <div style="font-size:40px;margin-bottom:12px;">✅</div>
+      <h2 style="font-family:'Caveat',cursive;font-size:28px;margin-bottom:10px;">Pre-quiz complete!</h2>
+      <p style="font-size:14px;font-weight:600;color:var(--muted);margin-bottom:8px;">You got <strong>${preQuizResults.filter(Boolean).length} of ${preQuiz.length}</strong> correct.</p>
+      ${wrong.length?`<div style="background:var(--yellow);border:2px solid var(--navy);border-radius:10px;padding:12px;margin-bottom:16px;text-align:left;font-size:13px;font-weight:700;color:var(--navy);">
+        <strong>Personalized tip:</strong> Based on your answers, pay extra attention to: <em>${wrong.map(q=>q.watch).join(', ')}</em> during the game.
+      </div>`:'<p style="color:var(--green);font-weight:700;margin-bottom:16px;">Perfect! You have strong foundational knowledge.</p>'}
+      <button class="btn-yellow" onclick="switchView('start')">Start the game →</button>
+    </div>`;
+    return;
+  }
+  const q=preQuiz[preIdx];
+  app.innerHTML=`<div class="card fade-in">
+    <p style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:10px;">Pre-game knowledge check — ${preIdx+1} of ${preQuiz.length}</p>
+    <p style="font-size:16px;font-weight:700;color:var(--navy);line-height:1.5;margin-bottom:20px;">"${q.q}"</p>
+    <div style="display:flex;gap:12px;justify-content:center;">
+      <button class="tf-btn" onclick="answerTF(true)">True</button>
+      <button class="tf-btn" onclick="answerTF(false)">False</button>
+    </div>
+    <div id="tf-fb" style="margin-top:14px;display:none;"></div>
+  </div>`;
+}
+function answerTF(val){
+  const q=preQuiz[preIdx];const ok=val===q.ans;
+  preQuizResults.push(ok);
+  const btns=document.querySelectorAll('.tf-btn');
+  btns.forEach(b=>{b.disabled=true;if((b.textContent==='True')===q.ans)b.classList.add('tf-correct');else if((b.textContent==='True')===val)b.classList.add('tf-wrong');});
+  const fb=document.getElementById('tf-fb');
+  if(fb){fb.style.display='block';fb.innerHTML=`<div style="background:${ok?'var(--green-bg)':'var(--red-bg)'};border:2px solid ${ok?'var(--green)':'var(--red)'};border-radius:10px;padding:12px;font-size:13px;font-weight:700;color:${ok?'var(--green-dark)':'var(--red-dark)'};line-height:1.6;">
+    <strong>${ok?'Correct!':'Not quite.'}</strong> ${q.explain}
+    <div style="margin-top:8px;"><button class="btn-sm" onclick="nextPreQ()">Next →</button></div>
+  </div>`;}
+}
+function nextPreQ(){preIdx++;renderPreQ(document.getElementById('app'));}
+
+/* ── START ── */
 function renderStart(app){
   clearTimer();
   app.innerHTML=`<div class="card fade-in start-screen">
-    <div class="start-icon">
-      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M7 11C7 9.34 8.34 8 10 8H30C31.66 8 33 9.34 33 11V24C33 25.66 31.66 27 30 27H22L15 33V27H10C8.34 27 7 25.66 7 24V11Z" stroke="#1A2535" stroke-width="2.5" stroke-linejoin="round" fill="none"/>
-        <circle cx="14" cy="18" r="2.5" fill="#1A2535"/>
-        <circle cx="20" cy="18" r="2.5" fill="#1A2535"/>
-        <circle cx="26" cy="18" r="2.5" fill="#1A2535"/>
-      </svg>
-    </div>
+    <div class="start-icon"><svg viewBox="0 0 40 40" fill="none"><path d="M7 11C7 9.34 8.34 8 10 8H30C31.66 8 33 9.34 33 11V24C33 25.66 31.66 27 30 27H22L15 33V27H10C8.34 27 7 25.66 7 24V11Z" stroke="#1A2535" stroke-width="2.5" stroke-linejoin="round"/><circle cx="14" cy="18" r="2.5" fill="#1A2535"/><circle cx="20" cy="18" r="2.5" fill="#1A2535"/><circle cx="26" cy="18" r="2.5" fill="#1A2535"/></svg></div>
     <h1>Communication Breakdown</h1>
-    <p>Ten workplace scenarios. Spot what went wrong and choose the right fix. Each question tests a core concept from your communication process workshop.</p>
+    <p>Ten workplace scenarios. Spot what went wrong, choose the right fix, and learn the OB theory behind every answer.</p>
     <div class="info-grid">
       <div class="info-chip"><span class="val">10</span><span class="lbl">Scenarios</span></div>
-      <div class="info-chip"><span class="val">30s</span><span class="lbl">Per Question</span></div>
-      <div class="info-chip"><span class="val">OB</span><span class="lbl">Concepts</span></div>
+      <div class="info-chip"><span class="val">30s</span><span class="lbl">Per Q</span></div>
+      <div class="info-chip"><span class="val">OB</span><span class="lbl">Theory</span></div>
+      <div class="info-chip"><span class="val">🔥</span><span class="lbl">Streaks</span></div>
     </div>
-    <button class="btn-start" onclick="startGame()">Start the game →</button>
+    <p style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Select difficulty</p>
+    <div class="diff-select">
+      <button class="diff-btn easy ${difficulty==='easy'?'selected':''}" onclick="setDiff('easy')">Easy</button>
+      <button class="diff-btn medium ${difficulty==='medium'?'selected':''}" onclick="setDiff('medium')">Medium</button>
+      <button class="diff-btn hard ${difficulty==='hard'?'selected':''}" onclick="setDiff('hard')">Hard</button>
+    </div>
+    <p style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:18px;">${difficulty==='easy'?'Easy: One wrong answer removed for you.':difficulty==='hard'?'Hard: All options are closely related — precise OB knowledge required.':'Medium: All four options shown.'}</p>
+    <div class="model-diagram">
+      <h3>The Communication Model</h3>
+      <div class="model-nodes">
+        ${[['📤','source','Source'],['→','',''],['💬','message','Message'],['→','',''],['📡','channel','Channel'],['→','',''],['📥','receiver','Receiver'],['→','',''],['🔁','feedback','Feedback'],['→','',''],['⚡','noise','Noise']].map(([ic,cls,lbl])=>cls?`<div class="model-node"><div class="node-circle n-${cls}">${ic}</div><div class="node-label">${lbl}</div></div>`:`<div class="node-arrow">${ic}</div>`).join('')}
+      </div>
+    </div>
+    <button class="btn-yellow" onclick="startGame()">Start the game →</button>
   </div>`;
+  attachGlossary();
+}
+function setDiff(d){difficulty=d;renderStart(document.getElementById('app'));}
+
+/* ── GAME ── */
+function startGame(){
+  current=0;score=0;answers=[];answered=false;streak=0;maxStreak=0;
+  conceptCardQueue=[...conceptCards];pollData={};
+  view='game';render();
 }
 
-function startGame(){current=0;score=0;soloAnswers=[];answered=false;view='game';render();}
-function switchView(v){clearTimer();view=v;render();}
+let typewriterInt=null;
+function typewrite(el,text,cb){
+  let i=0;el.innerHTML='<span class="cursor"></span>';
+  typewriterInt=setInterval(()=>{
+    el.innerHTML=text.slice(0,i)+'<span class="cursor"></span>';
+    i++;if(i>text.length){clearInterval(typewriterInt);el.innerHTML=tagTerms(text);if(cb)cb();}
+  },18);
+}
 
 function renderGame(app){
   const q=questions[current];
   const pct=(current/questions.length)*100;
-  const tpct=(timeLeft/TIMER_SECONDS)*100;
+  const tpct=(timeLeft/TIMER)*100;
   const tcol=timeLeft>15?'#E8C84A':timeLeft>7?'#E8944A':'#E84A4A';
+
+  let optHtml='';
+  let hiddenIdx=-1;
+  if(difficulty==='easy'){const wi=[0,1,2,3].filter(i=>i!==q.correct);hiddenIdx=wi[current%wi.length];}
+  q.options.forEach((o,i)=>{optHtml+=`<button class="opt ${i===hiddenIdx?'hidden-opt':''}" onclick="choose(${i})"><span class="opt-letter">${LETTERS[i]}</span><span>${o}</span></button>`;});
+
+  const tip=personalizedTips[q.concept];
+  const streakHtml=streak>=2?`<span class="streak-disp">🔥 ${streak}</span>`:'<span></span>';
+
+  // poll for this question
+  const pollKey=`q${current}`;
+  if(!pollData[pollKey])pollData[pollKey]={votes:[0,0,0,0,0],voted:false};
+  const pd=pollData[pollKey];
+  const pollVoted=pd.voted;
+  const totalVotes=pd.votes.reduce((a,b)=>a+b,0)||1;
+
   app.innerHTML=`<div class="fade-in">
+    ${instructorMode?`<div class="instructor-bar">
+      <span>👨‍🏫 Instructor</span>
+      <button class="ibtn" onclick="instructorPause()">${instructorPaused?'▶ Resume':'⏸ Pause'}</button>
+      <button class="ibtn" onclick="revealAns()">Reveal Answer</button>
+      <button class="ibtn" onclick="skipQ()">Skip →</button>
+      <span style="font-size:11px;opacity:.7;">Concept: ${q.concept}</span>
+    </div>`:''}
     <div class="progress-wrap">
-      <div class="progress-meta">
-        <span>Question ${current+1} of ${questions.length}</span>
-        <span>${score} correct</span>
-      </div>
+      <div class="progress-meta">${streakHtml}<span>${current+1} / ${questions.length}</span></div>
       <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
     </div>
     <div class="timer-wrap">
       <div class="timer-bar-track"><div class="timer-bar-fill" id="tbar" style="width:${tpct}%;background:${tcol}"></div></div>
       <span class="timer-num" id="tnum">${timeLeft}s</span>
     </div>
-    <div class="card">
-      <span class="badge ${q.badge}">${q.badgeLabel}</span>
-      <div class="scenario-card"><div class="scenario-label">Workplace Scenario</div><p class="scenario-text">${q.scenario}</p></div>
-      <p class="question">${q.question}</p>
-      <div class="options" id="opts">
-        ${q.options.map((o,i)=>`<button class="opt" onclick="choose(${i})"><span class="opt-letter">${letters[i]}</span><span>${o}</span></button>`).join('')}
+
+    <!-- HOT TAKE POLL -->
+    <div class="poll-wrap">
+      <h4>Hot take 🌡️</h4>
+      <p>Before you answer — how bad is this communication failure? (1 = minor slip, 5 = catastrophic)</p>
+      <div class="poll-scale">
+        ${[1,2,3,4,5].map(n=>`<button class="poll-btn ${pd.voted&&pd.lastVote===n?'selected':''}" onclick="votePoll(${n})" ${pd.voted?'disabled':''}>${n}</button>`).join('')}
       </div>
+      <div class="poll-results" id="poll-results" style="${pd.voted?'display:block':'display:none'}">
+        ${[1,2,3,4,5].map(n=>`<div class="poll-bar-row">
+          <span class="poll-bar-label">${n}</span>
+          <div class="poll-bar-track"><div class="poll-bar-fill" style="width:${Math.round((pd.votes[n-1]/totalVotes)*100)}%"></div></div>
+          <span class="poll-count">${pd.votes[n-1]}</span>
+        </div>`).join('')}
+      </div>
+    </div>
+
+    <div class="card">
+      ${tip?`<div class="watchout-tip"><strong>⚠️ Watch out:</strong> ${tip}</div>`:''}
+      <span class="badge ${q.badge}">${q.badgeLabel}</span>
+      <div class="hint-box"><p><strong>Think about it:</strong> ${q.hint}</p></div>
+      <div class="scenario-card"><div class="scenario-label">Workplace Scenario</div><p class="scenario-text" id="scenario-text"></p></div>
+      <p class="question">${q.question}</p>
+      <div class="options" id="opts">${optHtml}</div>
       <div class="feedback" id="fb"></div>
+      <button class="btn-replay" id="replaybtn" onclick="showReflection()">↩ Reflection prompt</button>
       <button class="btn-next" id="nxt" onclick="nextQ()">${current===questions.length-1?'See my results →':'Next question →'}</button>
     </div>
+    <div style="margin-top:6px;text-align:center;">
+      <span style="font-size:12px;font-weight:700;color:var(--cream);">Model element: </span>
+      <span style="font-size:12px;font-weight:800;color:var(--yellow);text-transform:capitalize;">${q.modelEl}</span>
+    </div>
   </div>`;
-  startTimer();
+
+  // typewrite scenario
+  setTimeout(()=>{
+    const el=document.getElementById('scenario-text');
+    if(el)typewrite(el,q.scenario,()=>{attachGlossary();});
+  },50);
+
+  if(!instructorPaused)startTimer();
+  attachGlossary();
+}
+
+function votePoll(n){
+  const pollKey=`q${current}`;
+  const pd=pollData[pollKey];
+  if(pd.voted)return;
+  pd.votes[n-1]++;pd.voted=true;pd.lastVote=n;
+  const totalVotes=pd.votes.reduce((a,b)=>a+b,0)||1;
+  const pr=document.getElementById('poll-results');
+  if(pr){
+    pr.style.display='block';
+    pr.innerHTML=[1,2,3,4,5].map(num=>`<div class="poll-bar-row">
+      <span class="poll-bar-label">${num}</span>
+      <div class="poll-bar-track"><div class="poll-bar-fill" style="width:${Math.round((pd.votes[num-1]/totalVotes)*100)}%"></div></div>
+      <span class="poll-count">${pd.votes[num-1]}</span>
+    </div>`).join('');
+  }
+  document.querySelectorAll('.poll-btn').forEach((b,i)=>{b.disabled=true;if(i+1===n)b.classList.add('selected');});
 }
 
 function startTimer(){
-  clearTimer();timeLeft=TIMER_SECONDS;
-  timerInterval=setInterval(()=>{
+  clearTimer();timeLeft=TIMER;
+  timerInt=setInterval(()=>{
+    if(instructorPaused)return;
     timeLeft--;
-    const tbar=document.getElementById('tbar'),tnum=document.getElementById('tnum');
-    if(!tbar||!tnum){clearTimer();return;}
-    const p=(timeLeft/TIMER_SECONDS)*100;
-    const c=timeLeft>15?'#E8C84A':timeLeft>7?'#E8944A':'#E84A4A';
-    tbar.style.width=p+'%';tbar.style.background=c;
-    tnum.textContent=timeLeft+'s';
+    const tb=document.getElementById('tbar'),tn=document.getElementById('tnum');
+    if(!tb||!tn){clearTimer();return;}
+    const p=(timeLeft/TIMER)*100,c=timeLeft>15?'#E8C84A':timeLeft>7?'#E8944A':'#E84A4A';
+    tb.style.width=p+'%';tb.style.background=c;tn.textContent=timeLeft+'s';
     if(timeLeft<=0){clearTimer();autoTimeout();}
   },1000);
 }
-function clearTimer(){if(timerInterval){clearInterval(timerInterval);timerInterval=null;}}
+function clearTimer(){if(timerInt){clearInterval(timerInt);timerInt=null;}if(typewriterInt){clearInterval(typewriterInt);typewriterInt=null;}}
 
 function autoTimeout(){
   if(answered)return;answered=true;
   const q=questions[current];
   document.querySelectorAll('.opt').forEach((b,i)=>{b.disabled=true;if(i===q.correct)b.classList.add('correct');});
-  const fb=document.getElementById('fb');
-  if(fb){fb.style.display='block';fb.className='feedback wrong';fb.innerHTML=`<strong>Time's up!</strong> ${q.feedback}`;}
-  soloAnswers.push({q:q.question,chosen:-1,correct:q.correct,options:q.options,ok:false});
-  const nxt=document.getElementById('nxt');if(nxt)nxt.style.display='inline-block';
+  showFeedback(q,-1,false);streak=0;
+  recordMisc(q,-1);
+  answers.push({q:q.question,chosen:-1,correct:q.correct,options:q.options,ok:false,concept:q.concept,modelEl:q.modelEl});
 }
 
 function choose(i){
   if(answered)return;answered=true;clearTimer();
   const q=questions[current];
   document.querySelectorAll('.opt').forEach((b,idx)=>{b.disabled=true;if(idx===q.correct)b.classList.add('correct');else if(idx===i&&i!==q.correct)b.classList.add('wrong');});
-  const ok=i===q.correct;if(ok)score++;
-  soloAnswers.push({q:q.question,chosen:i,correct:q.correct,options:q.options,ok});
-  const fb=document.getElementById('fb');
-  if(fb){fb.style.display='block';fb.className=`feedback ${ok?'correct':'wrong'}`;fb.innerHTML=`<strong>${ok?'Correct!':'Not quite.'}</strong> ${q.feedback}`;}
-  const nxt=document.getElementById('nxt');if(nxt)nxt.style.display='inline-block';
+  const ok=i===q.correct;
+  if(ok){score++;streak++;if(streak>maxStreak)maxStreak=streak;}else streak=0;
+  recordMisc(q,i);
+  answers.push({q:q.question,chosen:i,correct:q.correct,options:q.options,ok,concept:q.concept,modelEl:q.modelEl});
+  showFeedback(q,i,ok);
 }
 
-function nextQ(){clearTimer();current++;answered=false;if(current>=questions.length){view='results';render();}else render();}
+function recordMisc(q,chosen){
+  const misc=getMisc();
+  const key=q.question.slice(0,50);
+  if(!misc[key])misc[key]={q:q.question,wrong:{},total:0};
+  misc[key].total++;
+  if(chosen!==-1&&chosen!==q.correct){
+    const wk=q.options[chosen];
+    misc[key].wrong[wk]=(misc[key].wrong[wk]||0)+1;
+  }
+  saveMisc(misc);
+}
 
+function showFeedback(q,chosen,ok){
+  const fb=document.getElementById('fb');if(!fb)return;
+  fb.style.display='block';fb.className=`feedback ${ok?'correct':'wrong'}`;
+
+  let wrongCallout='';
+  if(!ok&&chosen>=0&&q.wrongWhy&&q.wrongWhy[chosen])
+    wrongCallout=`<div class="wrong-why"><strong>Why that answer is tempting:</strong> ${q.wrongWhy[chosen]}</div>`;
+
+  const timeoutNote=chosen===-1?'<strong>Time\'s up!</strong> ':'';
+
+  // inline model breakdown
+  const modelNodes=[['📤','source'],['💬','message'],['📡','channel'],['📥','receiver'],['🔁','feedback'],['⚡','noise']];
+  const mbiHtml=modelNodes.map(([ic,id],i)=>`
+    <div class="mbi-node"><div class="mbi-circle n-${id} ${id===q.modelEl?'broken':''}">${ic}</div><div class="mbi-label">${id}</div></div>
+    ${i<modelNodes.length-1?'<div class="mbi-arrow">→</div>':''}`).join('');
+
+  fb.innerHTML=`${timeoutNote}
+    <div class="fs-row"><span class="fs-label">❌ What went wrong:</span><span>${q.whatWentWrong}</span></div>
+    <div class="fs-row"><span class="fs-label">✅ Better approach:</span><span>${q.whatShouldHappen}</span></div>
+    <div class="fs-row"><span class="fs-label">📖 Explanation:</span><span>${q.feedback}</span></div>
+    ${wrongCallout}
+    <div class="rewrite-compare">
+      <div class="rw-box bad"><div class="rw-label">❌ What was said</div><div class="rw-text">${q.badRewrite}</div></div>
+      <div class="rw-box good"><div class="rw-label">✅ Better version</div><div class="rw-text">${q.goodRewrite}</div></div>
+    </div>
+    <div class="model-breakdown-inline"><p>Where the model broke down:</p><div class="mbi-nodes">${mbiHtml}</div></div>
+    <span class="concept-tag">📌 ${q.concept}</span>
+    <a href="${q.videoUrl}" target="_blank" class="video-link">
+      <div class="video-thumb">▶</div>
+      <div class="video-info"><div class="video-title">${q.videoTitle}</div><div class="video-sub">${q.videoSub}</div></div>
+    </a>
+    <div class="peer-teach-box" id="pt-box">
+      <h4>🧑‍🏫 Teach it back</h4>
+      <p style="font-size:12px;font-weight:600;color:var(--blue);margin-bottom:7px;">Explain why the correct answer is right in one sentence. This gets saved to your study guide.</p>
+      <textarea class="peer-teach-input" id="pt-input" placeholder="In my own words..."></textarea>
+      <button class="peer-save-btn" onclick="savePeerTeach(${current})">Save explanation</button>
+    </div>
+    <span class="chapter-link" onclick="alert('${q.citation}')">📚 ${q.citation.slice(0,40)}...</span>`;
+
+  // show peer teach on correct
+  const ptBox=document.getElementById('pt-box');
+  if(ptBox)ptBox.style.display=ok?'block':'none';
+
+  const nxt=document.getElementById('nxt');if(nxt)nxt.style.display='inline-block';
+  if(!ok){const rb=document.getElementById('replaybtn');if(rb)rb.style.display='inline-block';}
+  attachGlossary();
+}
+
+function savePeerTeach(idx){
+  const inp=document.getElementById('pt-input');if(!inp)return;
+  const val=inp.value.trim();if(!val)return;
+  peerTeachAnswers[idx]=val;
+  inp.disabled=true;document.querySelector('.peer-save-btn').textContent='✓ Saved!';
+}
+
+function showReflection(){
+  const q=questions[current];
+  const prompts=['Which model element (source, message, channel, receiver, feedback, noise) was the root of this breakdown?','If you were the sender in this scenario, what is the one thing you would do differently?','How could this breakdown have been prevented at the receiver\'s end?'];
+  const rb=document.getElementById('replaybtn');if(rb)rb.style.display='none';
+  const fb=document.getElementById('fb');
+  if(fb)fb.innerHTML+=`<div style="margin-top:10px;background:var(--purple-bg);border:2px solid var(--purple);border-radius:10px;padding:11px 13px;font-size:13px;font-weight:600;color:var(--purple);">
+    <strong>🤔 Reflection:</strong> ${prompts[current%prompts.length]}</div>`;
+}
+
+function nextQ(){
+  clearTimer();instructorPaused=false;current++;answered=false;
+  if(current<questions.length&&current%3===0&&conceptCardQueue.length>0){view='concept';render();return;}
+  if(current>=questions.length){view='results';render();}else render();
+}
+function instructorPause(){instructorPaused=!instructorPaused;if(view==='game')render();}
+function revealAns(){if(!answered)choose(questions[current].correct);}
+function skipQ(){clearTimer();current++;answered=false;if(current>=questions.length){view='results';render();}else render();}
+
+/* ── CONCEPT CARD ── */
+function renderConceptCard(app){
+  clearTimer();const cc=conceptCardQueue.shift()||conceptCards[0];
+  app.innerHTML=`<div class="card-teal fade-in concept-card">
+    <p style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--cream);opacity:.7;margin-bottom:10px;">Quick knowledge check-in</p>
+    <div class="cc-icon">${cc.icon}</div>
+    <h2>${cc.title}</h2>
+    <p>${tagTerms(cc.body)}</p>
+    <p class="cc-cite">Source: ${cc.cite}</p>
+    <div style="margin-top:18px;"><button class="btn-yellow" onclick="continueGame()">Got it — continue →</button></div>
+  </div>`;
+  attachGlossary();
+}
+function continueGame(){view='game';render();}
+
+/* ── RESULTS ── */
 function renderResults(app){
   clearTimer();
   const pct=Math.round((score/questions.length)*100);
   let msg,sub;
-  if(pct===100){msg="Perfect score!";sub="Outstanding — you identified every communication breakdown correctly.";}
-  else if(pct>=70){msg="Strong performance!";sub="You caught most of the breakdowns. Review the ones you missed to sharpen your instincts.";}
-  else if(pct>=50){msg="Good effort!";sub="You spotted several key issues. Keep the communication process model in mind as you practice.";}
-  else{msg="Keep building.";sub="Communication breakdowns are subtle in real life too. Revisit the feedback on each question.";}
+  if(pct===100){msg='Perfect score!';sub='Outstanding — you identified every communication breakdown correctly.';}
+  else if(pct>=70){msg='Strong performance!';sub='You caught most of the breakdowns. Review the ones you missed to sharpen your instincts.';}
+  else if(pct>=50){msg='Good effort!';sub='You spotted several key issues. Keep the communication model in mind as you practice.';}
+  else{msg='Keep building.';sub='Communication breakdowns are subtle in real life too. Revisit the feedback on each question.';}
 
   const r=50,circ=2*Math.PI*r,offset=circ-(pct/100)*circ;
   const showConfetti=pct>=80;
 
-  const name=prompt('Enter your name for the leaderboard (or cancel to skip):');
-  if(name&&name.trim()) saveToLeaderboard({name:name.trim(),score,total:questions.length,pct,time:Date.now()});
+  // trophies
+  const trophies=[];
+  if(maxStreak>=5)trophies.push({icon:'🏎️',name:'Speed Demon',desc:'5+ correct in a row'});
+  if(pct===100)trophies.push({icon:'🎓',name:'Scholar',desc:'Perfect score'});
+  if(answers.filter(a=>a.ok).slice(-3).length===3&&answers.length>=3)trophies.push({icon:'💪',name:'Comeback Kid',desc:'Last 3 all correct'});
+  if(Object.keys(peerTeachAnswers).length>=3)trophies.push({icon:'🧑‍🏫',name:'Peer Teacher',desc:'Explained 3+ answers'});
+  if(difficulty==='hard'&&pct>=60)trophies.push({icon:'🦁',name:'Hard Mode Hero',desc:'60%+ on Hard'});
 
-  const recapHtml=soloAnswers.map((a,i)=>`
+  // concept breakdown
+  const cmap={};
+  answers.forEach(a=>{if(!cmap[a.concept])cmap[a.concept]={r:0,t:0};cmap[a.concept].t++;if(a.ok)cmap[a.concept].r++;});
+  const struggles=Object.entries(cmap).filter(([,v])=>v.r/v.t<0.6).map(([k])=>k);
+
+  const cbRows=Object.entries(cmap).map(([c,v])=>{
+    const cp=Math.round((v.r/v.t)*100);
+    const col=cp>=80?'var(--green)':cp>=50?'var(--yellow-dark)':'var(--red)';
+    return `<div class="cb-row"><span class="cb-label">${c}</span><div class="cb-bar-track"><div class="cb-bar-fill" style="width:0%;background:${col}" data-w="${cp}"></div></div><span class="cb-score">${v.r}/${v.t}</span></div>`;
+  }).join('');
+
+  // misconception from wrong answers
+  const miscCallouts=answers.filter(a=>!a.ok&&a.chosen>=0).map(a=>`<div class="misconception-item">${a.options[a.chosen]}</div>`).join('');
+
+  // spaced repetition
+  const today=new Date();
+  const fmtDate=(d)=>d.toLocaleDateString('en-CA',{weekday:'short',month:'short',day:'numeric'});
+  const addDays=(d,n)=>{const r=new Date(d);r.setDate(r.getDate()+n);return r;};
+  const srConcepts=struggles.length?struggles:Object.keys(cmap).slice(0,2);
+  const srSchedule=srConcepts.slice(0,3).map((c,i)=>{
+    const days=[1,3,7];
+    return `<div class="sr-day"><span class="sr-day-label">${fmtDate(addDays(today,days[i]))}</span><span class="sr-content">Review: <strong>${c}</strong> — re-read Robbins & Judge Ch. 11 and revisit your wrong answers on this concept.</span></div>`;
+  }).join('');
+
+  const recapHtml=answers.map((a,i)=>`
     <div class="recap-item">
       <div class="recap-icon ${a.ok?'ok':'bad'}">${a.ok?'✓':'✗'}</div>
-      <div>
+      <div style="flex:1;">
         <div class="recap-q">Q${i+1}: ${a.q}</div>
-        ${!a.ok?`<div class="recap-a wrong-ans">You chose: ${a.chosen===-1?'Timed out':a.options[a.chosen]}</div><div class="recap-a">Correct: ${a.options[a.correct]}</div>`:'<div class="recap-a">Correct!</div>'}
+        ${!a.ok?`<div class="recap-a wa">You chose: ${a.chosen===-1?'Timed out':a.options[a.chosen]}</div><div class="recap-a">Correct: ${a.options[a.correct]}</div>`:'<div class="recap-a">Correct!</div>'}
+        <div style="font-size:10px;font-weight:700;color:var(--teal-darker);margin-top:2px;">Concept: ${a.concept} · Model: ${a.modelEl}</div>
+        ${peerTeachAnswers[i]?`<div style="font-size:12px;font-weight:600;color:var(--blue);margin-top:4px;font-style:italic;">Your explanation: "${peerTeachAnswers[i]}"</div>`:''}
       </div>
     </div>`).join('');
 
+  const name=prompt('Enter your name for the leaderboard (or cancel to skip):');
+  if(name&&name.trim())saveLB({name:name.trim(),score,total:questions.length,pct,difficulty,streak:maxStreak,time:Date.now()});
+
   app.innerHTML=`<div class="fade-in">
     ${showConfetti?`<div class="confetti-wrap" id="confetti"></div>`:''}
-    <div class="card" style="text-align:center;margin-bottom:16px;">
-      <div class="score-ring" style="margin-bottom:16px;">
-        <svg width="130" height="130" viewBox="0 0 130 130">
-          <circle class="ring-bg" cx="65" cy="65" r="${r}"/>
-          <circle class="ring-fill" cx="65" cy="65" r="${r}" stroke-dasharray="${circ}" stroke-dashoffset="${circ}" id="ring"/>
-        </svg>
-        <div class="score-center"><span class="score-num">${score}/${questions.length}</span><span class="score-pct">${pct}%</span></div>
-      </div>
+    <div class="card" style="text-align:center;margin-bottom:14px;">
+      <div class="score-ring"><svg width="120" height="120" viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="${r}"/><circle class="ring-fill" cx="60" cy="60" r="${r}" stroke-dasharray="${circ}" stroke-dashoffset="${circ}" id="ring"/></svg><div class="score-center"><span class="score-num">${score}/${questions.length}</span><span class="score-pct">${pct}%</span></div></div>
       <h2>${msg}</h2>
       <p class="sub">${sub}</p>
-      <div class="result-btns">
-        <button class="btn-start" style="font-size:14px;padding:12px 24px;" onclick="restartGame()">Play again</button>
-        <button class="lb-btn" style="padding:12px 20px;font-size:14px;" onclick="switchView('leaderboard')">🏆 Leaderboard</button>
+      ${maxStreak>=3?`<p style="font-size:13px;font-weight:700;color:var(--orange);margin-bottom:8px;">🔥 Best streak: ${maxStreak} in a row!</p>`:''}
+      ${struggles.length?`<p style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:8px;">Focus areas: ${struggles.join(', ')}</p>`:''}
+      ${trophies.length?`<div class="trophy-case">${trophies.map(t=>`<div class="trophy"><span class="trophy-icon">${t.icon}</span><span class="trophy-name">${t.name}</span><span class="trophy-desc">${t.desc}</span></div>`).join('')}</div>`:''}
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px;">
+        <button class="btn-yellow" onclick="startGame()">Play again</button>
+        <button class="btn-cream" onclick="switchView('leaderboard')">🏆 Scores</button>
+        <button class="btn-cream" onclick="exportStudyGuide()">📄 Study guide</button>
+        <button class="btn-cream" onclick="switchView('builder')">🛠 Build scenario</button>
       </div>
     </div>
-    <div class="card" style="margin-bottom:16px;">
-      <div class="recap"><div class="recap-title">Answer Breakdown</div>${recapHtml}</div>
+
+    ${miscCallouts?`<div class="card misconception-box" style="margin-bottom:14px;">
+      <h4>⚠️ Common wrong answers you chose</h4>${miscCallouts}
+      <p style="font-size:12px;font-weight:600;color:var(--red-dark);margin-top:8px;">These are misconceptions to address in your debrief.</p>
+    </div>`:''}
+
+    <div class="card" style="margin-bottom:14px;">
+      <div class="concept-breakdown"><div class="cb-title">Performance by concept</div>${cbRows}</div>
     </div>
+
+    <div class="spaced-rep">
+      <h3>📅 Revision schedule</h3>
+      <p style="font-size:12px;font-weight:600;color:var(--cream);opacity:.8;margin-bottom:12px;">Based on your results and the Ebbinghaus forgetting curve — review these before the memory fades.</p>
+      ${srSchedule}
+    </div>
+
+    <div class="card" style="margin-bottom:14px;">
+      <div class="recap-title">Answer breakdown</div>${recapHtml}
+    </div>
+
     <div class="takeaways">
       <h3>Key Takeaways</h3>
       <ul>
@@ -467,47 +1004,164 @@ function renderResults(app){
   setTimeout(()=>{
     const ring=document.getElementById('ring');if(ring)ring.style.strokeDashoffset=offset;
     if(showConfetti)spawnConfetti();
+    document.querySelectorAll('.cb-bar-fill').forEach(el=>{const w=el.dataset.w;el.style.width='0';setTimeout(()=>{el.style.width=w+'%';},200);});
   },100);
+}
+
+function exportStudyGuide(){
+  const missed=answers.filter(a=>!a.ok);
+  const all=answers;
+  let txt='COMMUNICATION BREAKDOWN — STUDY GUIDE\n';
+  txt+='Generated: '+new Date().toLocaleDateString()+' | Difficulty: '+difficulty+'\n';
+  txt+='Score: '+score+'/'+questions.length+' ('+Math.round(score/questions.length*100)+'%)\n\n';
+
+  if(missed.length){
+    txt+='── QUESTIONS TO REVIEW ──\n\n';
+    missed.forEach((a,i)=>{
+      const q=questions.find(qq=>qq.question===a.q);
+      txt+=`${i+1}. ${a.q}\n`;
+      txt+=`   Concept: ${a.concept}\n`;
+      txt+=`   Correct answer: ${a.options[a.correct]}\n`;
+      if(q){txt+=`   What went wrong: ${q.whatWentWrong}\n`;txt+=`   Better approach: ${q.whatShouldHappen}\n`;txt+=`   Source: ${q.citation}\n`;}
+      txt+='\n';
+    });
+  }
+
+  if(Object.keys(peerTeachAnswers).length){
+    txt+='── YOUR OWN EXPLANATIONS ──\n\n';
+    Object.entries(peerTeachAnswers).forEach(([idx,expl])=>{
+      const a=all[parseInt(idx)];
+      if(a)txt+=`Q${parseInt(idx)+1}: ${a.q}\nYour explanation: "${expl}"\n\n`;
+    });
+  }
+
+  txt+='── REVISION SCHEDULE (Ebbinghaus) ──\n';
+  const today=new Date();
+  const addDays=(d,n)=>{const r=new Date(d);r.setDate(r.getDate()+n);return r;};
+  txt+=`Day 1 (${addDays(today,1).toLocaleDateString()}): Re-read your wrong answers above\n`;
+  txt+=`Day 3 (${addDays(today,3).toLocaleDateString()}): Review Robbins & Judge Ch. 11 sections on ${[...new Set(missed.map(a=>a.concept))].join(', ')||'all concepts'}\n`;
+  txt+=`Day 7 (${addDays(today,7).toLocaleDateString()}): Play the game again and compare your score\n\n`;
+
+  txt+='── KEY REFERENCES ──\n';
+  txt+='Robbins, S. P., & Judge, T. A. (2019). Organizational behavior (18th ed.). Pearson.\n';
+  txt+='Shannon, C. E., & Weaver, W. (1949). The mathematical theory of communication. University of Illinois Press.\n';
+  txt+='Daft, R. L., & Lengel, R. H. (1986). Organizational information requirements, media richness. Management Science, 32(5), 554–571.\n';
+
+  const blob=new Blob([txt],{type:'text/plain'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='comm_breakdown_study_guide.txt';a.click();
+  URL.revokeObjectURL(url);
 }
 
 function spawnConfetti(){
   const wrap=document.getElementById('confetti');if(!wrap)return;
-  const cols=['#E8C84A','#8BBCCA','#F5F0D0','#1A2535','#E8C84A','#8BBCCA'];
-  for(let i=0;i<35;i++){
+  const cols=['#E8C84A','#8BBCCA','#F5F0D0','#3A7D5A','#E8944A'];
+  for(let i=0;i<40;i++){
     const el=document.createElement('div');el.className='confetti-piece';
-    el.style.cssText=`left:${Math.random()*100}%;background:${cols[Math.floor(Math.random()*cols.length)]};animation-delay:${Math.random()*0.9}s;animation-duration:${0.9+Math.random()*0.9}s;border-radius:${Math.random()>.5?'50%':'3px'};`;
+    el.style.cssText=`left:${Math.random()*100}%;background:${cols[Math.floor(Math.random()*cols.length)]};animation-delay:${Math.random()}s;animation-duration:${1+Math.random()}s;border-radius:${Math.random()>.5?'50%':'2px'};`;
     wrap.appendChild(el);
   }
 }
 
-function restartGame(){view='start';render();}
-
+/* ── LEADERBOARD ── */
 function renderLeaderboard(app){
-  const lb=getLeaderboard();
+  const lb=getLB();
+  const misc=getMisc();
+  const diffBg={easy:'#D4EDE0',medium:'#F5F0D0',hard:'#F0D4D4'};
+
+  // top misconceptions
+  const miscItems=Object.values(misc).filter(m=>m.total>0).sort((a,b)=>Object.values(b.wrong).reduce((x,y)=>x+y,0)-Object.values(a.wrong).reduce((x,y)=>x+y,0)).slice(0,3);
+
   app.innerHTML=`<div class="fade-in">
-    <div class="lb-header">
-      <h2>🏆 Leaderboard</h2>
-      <p>Top scores from all players on this device.</p>
-    </div>
+    <div class="lb-head"><h2>🏆 Leaderboard</h2><p>Top scores on this device.</p></div>
     <div class="lb-table">
-      ${lb.length===0?`<div class="lb-empty">No scores yet — play a round to get on the board!</div>`:`
-      <div class="lb-row header">
-        <span style="width:32px">#</span><span style="flex:1">Name</span><span>Score</span>
-      </div>
+      ${lb.length===0?`<div class="lb-empty">No scores yet — play a round!</div>`:`
+      <div class="lb-row lbh"><span style="width:28px">#</span><span style="flex:1">Name</span><span>Diff</span><span style="margin-left:6px">Score</span></div>
       ${lb.map((e,i)=>`<div class="lb-row">
         <span class="lb-rank ${i<3?'top':''}">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</span>
-        <span class="lb-name">${e.name}</span>
-        <span class="lb-score">${e.score}/${e.total}</span>
+        <span class="lb-name">${e.name}${e.streak>=3?` 🔥${e.streak}`:''}</span>
+        <span class="lb-diff" style="background:${diffBg[e.difficulty]||'#eee'}">${e.difficulty||'med'}</span>
+        <span class="lb-score" style="margin-left:6px">${e.score}/${e.total}</span>
       </div>`).join('')}`}
     </div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;">
-      <button class="btn-start" style="font-size:14px;padding:12px 24px;" onclick="switchView('start')">← Back</button>
-      ${lb.length>0?`<button class="btn-danger" onclick="clearLB()">Clear scores</button>`:''}
+    ${miscItems.length?`<div class="misc-dashboard">
+      <div class="misc-header"><h3>📊 Instructor: Class Misconceptions</h3></div>
+      ${miscItems.map(m=>{const topWrong=Object.entries(m.wrong).sort((a,b)=>b[1]-a[1])[0];return topWrong?`<div class="misc-row"><span class="misc-q">${m.q.slice(0,60)}...<br><em style="font-size:11px;color:var(--muted);">Most chosen wrong: "${topWrong[0].slice(0,40)}"</em></span><span class="misc-pct">${topWrong[1]}x</span></div>`:'';}). join('')}
+    </div>`:''}
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn-yellow" onclick="switchView('start')">← Back</button>
+      ${lb.length?`<button class="btn-red" onclick="clearLB()">Clear scores</button>`:''}
     </div>
   </div>`;
 }
+function clearLB(){if(confirm('Clear all scores?')){localStorage.removeItem(SK);renderLeaderboard(document.getElementById('app'));}}
 
-function clearLB(){if(confirm('Clear all scores?')){localStorage.removeItem(STORAGE_KEY);renderLeaderboard(document.getElementById('app'));}}
+/* ── GLOSSARY ── */
+function renderGlossary(app){
+  app.innerHTML=`<div class="fade-in">
+    <div class="lb-head"><h2>📖 Glossary</h2><p>Hover any underlined term in the game for a quick definition.</p></div>
+    <div class="glossary-grid">
+      ${Object.entries(glossary).map(([term,g])=>`<div class="gloss-card">
+        <div class="gloss-term">${term.charAt(0).toUpperCase()+term.slice(1)}</div>
+        <div class="gloss-def">${g.def}</div>
+        <div class="gloss-src">${g.cite}</div>
+        <div class="gloss-ch">📖 ${g.ch}</div>
+      </div>`).join('')}
+    </div>
+    <div style="margin-top:14px;"><button class="btn-yellow" onclick="switchView('start')">← Back</button></div>
+  </div>`;
+}
+
+/* ── SCENARIO BUILDER ── */
+function renderBuilder(app){
+  app.innerHTML=`<div class="fade-in">
+    <div class="lb-head"><h2>🛠 Scenario Builder</h2><p>Create your own communication breakdown scenario. Apply the theory to a situation you have experienced.</p></div>
+    <div class="card scenario-builder">
+      <label>What is the workplace setting?</label>
+      <input type="text" id="sb-setting" placeholder="e.g. A weekly team standup meeting">
+      <label>What communication barrier or concept does your scenario illustrate?</label>
+      <select id="sb-concept">
+        <option value="">Select a concept...</option>
+        ${Object.keys(glossary).map(k=>`<option value="${k}">${k.charAt(0).toUpperCase()+k.slice(1)}</option>`).join('')}
+      </select>
+      <label>Describe the breakdown scenario (2–4 sentences):</label>
+      <textarea id="sb-scenario" rows="4" placeholder="What happened? Who was involved? What went wrong?"></textarea>
+      <label>What should have happened instead?</label>
+      <input type="text" id="sb-fix" placeholder="e.g. The manager should have...">
+      <button class="btn-yellow" onclick="previewScenario()">Preview my scenario</button>
+      <div class="scenario-preview" id="sb-preview"></div>
+      <div style="margin-top:12px;display:none;" id="sb-save-row">
+        <button class="btn-cream" onclick="saveScenario()">Save to my study guide</button>
+      </div>
+    </div>
+    <div style="margin-top:4px;"><button class="btn-cream" onclick="switchView('start')">← Back</button></div>
+  </div>`;
+}
+
+function previewScenario(){
+  const setting=document.getElementById('sb-setting').value.trim();
+  const concept=document.getElementById('sb-concept').value;
+  const scenario=document.getElementById('sb-scenario').value.trim();
+  const fix=document.getElementById('sb-fix').value.trim();
+  if(!scenario||!concept){alert('Please fill in the concept and scenario fields.');return;}
+  const prev=document.getElementById('sb-preview');
+  prev.style.display='block';
+  prev.innerHTML=`<div class="scenario-label">Your scenario — ${concept}</div>
+    <p style="font-size:14px;font-weight:600;color:var(--cream);margin-bottom:10px;line-height:1.7;">${setting?`<strong>Setting:</strong> ${setting}<br>`:''}${scenario}</p>
+    ${fix?`<p style="font-size:13px;font-weight:700;color:var(--yellow);">✅ Better approach: ${fix}</p>`:''}`;
+  document.getElementById('sb-save-row').style.display='block';
+}
+
+function saveScenario(){
+  const concept=document.getElementById('sb-concept').value;
+  const scenario=document.getElementById('sb-scenario').value.trim();
+  const fix=document.getElementById('sb-fix').value.trim();
+  const entry=`\nSTUDENT-CREATED SCENARIO:\nConcept: ${concept}\nScenario: ${scenario}\nBetter approach: ${fix}\n`;
+  const blob=new Blob([entry],{type:'text/plain'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='my_scenario.txt';a.click();
+  URL.revokeObjectURL(url);
+}
 
 render();
 </script>
